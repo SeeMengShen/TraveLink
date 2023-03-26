@@ -3,23 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/homeFragment">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/homeFragment"
         android:name="my.edu.tarc.travelink.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
-
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="my.edu.tarc.travelink.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
+        android:id="@+id/walletFragment"
+        android:name="my.edu.tarc.travelink.ui.wallet.WalletFragment"
+        android:label="fragment_wallet"
+        tools:layout="@layout/fragment_wallet" />
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="my.edu.tarc.travelink.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/accountFragment"
+        android:name="my.edu.tarc.travelink.ui.account.AccountFragment"
+        android:label="@string/title_account"
+        tools:layout="@layout/fragment_account" />
+    <fragment
+        android:id="@+id/aboutUsFragment"
+        android:name="my.edu.tarc.travelink.ui.account.aboutUs.AboutUsFragment"
+        android:label="@string/accountAboutUs"
+        tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/editDetailsFragment"
+        android:name="my.edu.tarc.travelink.ui.account.editDetails.EditDetailsFragment"
+        android:label="@string/accountEditDetailsStr"
+        tools:layout="@layout/fragment_edit_details" />
+    <fragment
+        android:id="@+id/feedbackFragment"
+        android:name="my.edu.tarc.travelink.ui.account.feedback.FeedbackFragment"
+        android:label="@string/accountFeedback"
+        tools:layout="@layout/fragment_feedback" />
+
 </navigation>

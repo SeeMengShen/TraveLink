@@ -68,4 +68,27 @@
     <string name="dropOffSuccessfully">Drop Off Successfully!</string>
     <string name="database_url">https://mad-ass-94890-default-rtdb.asia-southeast1.firebasedatabase.app/</string>
     <string name="rm">RM</string>
+
+
+    <string name="loginRegister">Don\'t have an account? \n Create an account</string>
+    <string name="loginLogin">Login</string>
+    <string name="loginForgetPassword">Forget Password?</string>
+    <string name="loginPassword">Password</string>
+    <string name="loginEmail">Email</string>
+    <string name="loginEmailHint">example@email.com</string>
+    <string name="passwordHint">*********</string>
+    <string name="registerRegister">Register</string>
+    <string name="registerFullName">Full Name</string>
+    <string name="registerEmail">Email</string>
+    <string name="registerPassword">Password</string>
+    <string name="registerConfirmPassword">Confirm Password</string>
+    <string name="registerTnC">I agree to the Terms and Conditions</string>
+    <string name="registerLogin">Already have an account? \n Login!</string>
+    <string name="registerNameHint">Bob Gigachad</string>
+    <string name="registerEmailHint">example@email.com</string>
+    <string name="registerPasswordHint">*********</string>
+    <string name="forgetPasswordForgetPassword">Forget Password</string>
+    <string name="forgetPasswordEmail">Email</string>
+    <string name="forgetPasswordSendEmail">Send Email Verification</string>
+    <string name="forgetPasswordEmailHint">example@email.com</string>
 </resources>

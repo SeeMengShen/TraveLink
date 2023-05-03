@@ -5,56 +5,87 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import my.edu.tarc.travelink.R
+import my.edu.tarc.travelink.databinding.FragmentRegisterBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [RegisterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RegisterFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentRegisterBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var auth: FirebaseAuth
+    private val navController by lazy {findNavController()}
+    private val firebaseUser = Firebase.firestore.collection("users")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        auth = FirebaseAuth.getInstance()
+
+        with(binding){
+            registerLoginButton.setOnClickListener(){navController.navigateUp()}
+            registerRegisterButton.setOnClickListener(){register()}
+        }
+
+        return binding.root
+    }
+
+    private fun register(){
+        val userName = binding.registerNameEditText.text.toString()
+        val userEmail = binding.registerEmailEditText.text.toString()
+        val userPassword = binding.registerPasswordEditText.text.toString()
+        val userConfirmPassword = binding.registerConfirmPasswordEditText.text.toString()
+        val userTnCCheckbox = binding.registerTnCCheckbox
+
+        if(userName.isBlank() || userEmail.isBlank() || userPassword.isBlank() || userConfirmPassword.isBlank()){
+            toast("Username, Email and Password fields cannot be blank.")
+            return
+        }
+
+        if(userPassword != userConfirmPassword){
+            toast("Confirm Password does not match with Password.")
+            return
+        }
+
+        if(!userTnCCheckbox.isChecked){
+            toast("Please check on the Terms and Condition before proceeding.")
+            return
+        }
+
+        auth.createUserWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener{task ->
+            val user = auth.currentUser
+
+            if(task.isComplete){
+                user!!.sendEmailVerification().addOnCompleteListener{
+                    if(task.isSuccessful){
+                        toast("Registration Successful, please check yor email address for verification!")
+                        writeNewUser(userEmail, userName)
+                        auth.signOut()
+                        navController.navigateUp()
+                    } else{
+                        Toast.makeText(context, task.exception!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false)
+    private fun writeNewUser(userEmail: String, userName: String){
+        val newUser = hashMapOf(
+            "username" to userName
+        )
+
+        firebaseUser.document(userEmail).set(newUser)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RegisterFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RegisterFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun toast(text: String){
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 }

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "708751028260",
+    "firebase_url": "https://mad-ass-94890-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "mad-ass-94890",
+    "storage_bucket": "mad-ass-94890.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:708751028260:android:eb6cb145ebe0926b44a8b1",
+        "android_client_info": {
+          "package_name": "my.edu.tarc.travelink"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "708751028260-meglhn01ef2m5n2h7rb75o4pkd3m0qok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdn9xuGVm8R9JgP0a6DXGChBNcygMArF4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "708751028260-meglhn01ef2m5n2h7rb75o4pkd3m0qok.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

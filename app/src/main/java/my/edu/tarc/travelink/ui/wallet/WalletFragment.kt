@@ -40,7 +40,6 @@ class WalletFragment : Fragment() {
 
         }.attach()
 
-        //requireActivity().findViewById<BottomNavigationView>()
 
 
         return binding.root

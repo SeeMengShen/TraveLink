@@ -52,4 +52,20 @@
     <string name="aboutUsEmail">cs_traveller@gmail.com</string>
     <string name="title_wallet">Wallet</string>
     <string name="title_account">Account</string>
+    <string name="top_up">Top Up</string>
+    <string name="min_reload_amount_is_rm10">Min reload amount is RM10</string>
+    <string name="rm300">RM 300</string>
+    <string name="rm200">RM 200</string>
+    <string name="rm100">RM 100</string>
+    <string name="rm50">RM 50</string>
+    <string name="rm20">RM 20</string>
+    <string name="rm10">RM 10</string>
+    <string name="boardingSuccessfully">Boarding Successfully!</string>
+    <string name="station">Station</string>
+    <string name="dateAndTme">Date and Time</string>
+    <string name="fare">Fare</string>
+    <string name="ok">OK</string>
+    <string name="dropOffSuccessfully">Drop Off Successfully!</string>
+    <string name="database_url">https://mad-ass-94890-default-rtdb.asia-southeast1.firebasedatabase.app/</string>
+    <string name="rm">RM</string>
 </resources>

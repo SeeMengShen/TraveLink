@@ -68,13 +68,49 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="scanQRCodeFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="420" />
+                            <option name="y" value="-621" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="scanSuccessfulFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="621" />
+                            <option name="y" value="-616" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="topUpFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="615" />
+                            <option name="y" value="-292" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="walletFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="215" />
-                            <option name="y" value="10" />
+                            <option name="x" value="422" />
+                            <option name="y" value="-293" />
                           </Point>
                         </option>
                       </LayoutPositions>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/topUpRMTextView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.wallet.topup.TopUpFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/topUpContainer"
+        android:layout_width="0dp"
+        android:layout_height="350dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        app:cardBackgroundColor="@color/purple_200"
+        app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp">
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/topUpInputContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/rm"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/topUpAmountEditTextNumber"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/topUpAmountEditTextNumber" />
+
+                    <EditText
+                        android:id="@+id/topUpAmountEditTextNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:ems="10"
+                        android:inputType="number"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/topUpAmountHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/min_reload_amount_is_rm10"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/topUpAmountEditTextNumber" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/topUpbuttonRM300"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/rm300"
+                android:theme="@style/Theme.Button"
+                app:cornerRadius="10dp"
+                app:layout_constraintStart_toStartOf="@+id/topUpInputContainer"
+                app:layout_constraintTop_toBottomOf="@+id/topUpInputContainer" />
+
+            <Button
+                android:id="@+id/topUpbuttonRM200"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/rm200"
+                android:theme="@style/Theme.Button"
+                app:cornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topUpInputContainer" />
+
+            <Button
+                android:id="@+id/topUpbuttonRM100"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/rm100"
+                android:theme="@style/Theme.Button"
+                app:cornerRadius="10dp"
+                app:layout_constraintStart_toStartOf="@+id/topUpInputContainer"
+                app:layout_constraintTop_toBottomOf="@+id/topUpbuttonRM300" />
+
+            <Button
+                android:id="@+id/topUpbuttonRM50"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/rm50"
+                android:theme="@style/Theme.Button"
+                app:cornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topUpbuttonRM200" />
+
+
+            <Button
+                android:id="@+id/topUpbuttonRM20"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/rm20"
+                android:theme="@style/Theme.Button"
+                app:cornerRadius="10dp"
+                app:layout_constraintStart_toStartOf="@+id/topUpInputContainer"
+                app:layout_constraintTop_toBottomOf="@+id/topUpbuttonRM100" />
+
+            <Button
+                android:id="@+id/topUpbuttonRM10"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/rm10"
+                android:theme="@style/Theme.Button"
+                app:cornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topUpbuttonRM50" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/topUpbuttonTopUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/top_up"
+        app:layout_constraintEnd_toEndOf="@+id/topUpContainer"
+        app:layout_constraintStart_toStartOf="@+id/topUpContainer"
+        app:layout_constraintTop_toBottomOf="@+id/topUpContainer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

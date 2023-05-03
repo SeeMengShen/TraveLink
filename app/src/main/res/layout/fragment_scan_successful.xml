@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.scan.ScanSuccessfulFragment" >
+
+    <ImageView
+        android:id="@+id/scanSuccessfulImageView"
+        android:layout_width="0dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/baseline_check_circle_green_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/scanSuccessfulTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scanSuccessfulImageView" />
+
+    <TextView
+        android:id="@+id/scanSuccessfulStationNameLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/station"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scanSuccessfulTitleTextView" />
+
+    <TextView
+        android:id="@+id/scanSuccessfulStationNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="@+id/scanSuccessfulStationNameLabelTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scanSuccessfulStationNameLabelTextView" />
+
+    <TextView
+        android:id="@+id/scanSuccessfulTimeLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/dateAndTme"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/scanSuccessfulStationNameLabelTextView"
+        app:layout_constraintTop_toBottomOf="@+id/scanSuccessfulStationNameLabelTextView" />
+
+    <TextView
+        android:id="@+id/scanSuccessfulTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/scanSuccessfulTimeLabelTextView"
+        app:layout_constraintEnd_toEndOf="@+id/scanSuccessfulStationNameTextView"
+        app:layout_constraintTop_toTopOf="@+id/scanSuccessfulTimeLabelTextView" />
+
+    <TextView
+        android:id="@+id/scanSuccessfulFareLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/fare"
+        app:layout_constraintStart_toStartOf="@+id/scanSuccessfulTimeLabelTextView"
+        app:layout_constraintTop_toBottomOf="@+id/scanSuccessfulTimeLabelTextView" />
+
+    <TextView
+        android:id="@+id/scanSuccessfulFareTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/scanSuccessfulFareLabelTextView"
+        app:layout_constraintEnd_toEndOf="@+id/scanSuccessfulTimeTextView"
+        app:layout_constraintTop_toTopOf="@+id/scanSuccessfulFareLabelTextView" />
+
+    <Button
+        android:id="@+id/scanSuccessfulOKButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="@string/ok"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scanSuccessfulFareLabelTextView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

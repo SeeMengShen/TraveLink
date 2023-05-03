@@ -35,5 +35,20 @@
         android:name="my.edu.tarc.travelink.ui.account.feedback.FeedbackFragment"
         android:label="@string/accountFeedback"
         tools:layout="@layout/fragment_feedback" />
+    <fragment
+        android:id="@+id/topUpFragment"
+        android:name="my.edu.tarc.travelink.ui.wallet.topup.TopUpFragment"
+        android:label="fragment_top_up"
+        tools:layout="@layout/fragment_top_up" />
+    <fragment
+        android:id="@+id/scanQRCodeFragment"
+        android:name="my.edu.tarc.travelink.ui.scan.ScanQRCodeFragment"
+        android:label="fragment_scan_qr_code"
+        tools:layout="@layout/fragment_scan_qr_code" />
+    <fragment
+        android:id="@+id/scanSuccessfulFragment"
+        android:name="my.edu.tarc.travelink.ui.scan.ScanSuccessfulFragment"
+        android:label="fragment_scan_successful"
+        tools:layout="@layout/fragment_scan_successful" />
 
 </navigation>

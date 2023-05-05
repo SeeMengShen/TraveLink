@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import my.edu.tarc.travelink.R
 import my.edu.tarc.travelink.databinding.FragmentTripBinding
 import my.edu.tarc.travelink.databinding.FragmentWalletBinding
+import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
 import my.edu.tarc.travelink.ui.wallet.data.TripViewModel
 import my.edu.tarc.travelink.ui.util.TripAdapter
 
@@ -30,8 +31,6 @@ class TripFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentTripBinding.inflate(inflater, container, false)
 
-
-
         return binding.root
     }
 
@@ -42,6 +41,10 @@ class TripFragment : Fragment() {
         val adapter = TripAdapter()
 
         tripViewModel.tripHistory.observe(viewLifecycleOwner, Observer {
+            CURRENT_USER.value!!.trips?.forEach { trip ->
+                tripViewModel.addExistingTrip(trip)
+            }
+
             if (!it.isNullOrEmpty()) {
                 adapter.setTrips(it)
             }

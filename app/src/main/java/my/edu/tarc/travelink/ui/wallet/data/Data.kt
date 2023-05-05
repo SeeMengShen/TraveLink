@@ -2,9 +2,11 @@ package my.edu.tarc.travelink.ui.wallet.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.firebase.firestore.DocumentId
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 @Entity(tableName = "Trip")
 data class Trip(
@@ -13,12 +15,12 @@ data class Trip(
     var tripID: Int = 0,
     var boardingStationID: String = "",
     var boardingStation: String = "",
-    var boardingDateTime: LocalDateTime,
+    var boardingDateTime: Date = Date(),
 
 
     var dropOffStationID: String? = null,
     var dropOffStation: String? = null,
-    var dropOffDateTime: LocalDateTime? = null,
+    var dropOffDateTime: Date? = null,
     var fare: Float? = null
 
 ) {
@@ -30,22 +32,27 @@ data class Trip(
             DateTimeFormatter.ofPattern(dateTimePattern)
 
 
-        fun stringToDateTime(string: String?): LocalDateTime? {
+        fun stringToDateTime(string: String?): Date?{
             try{
-                return LocalDateTime.parse(string, dateTimeFormatter)
+                val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+                return dateFormat.parse(string)
             }catch (ex :Exception){
                 return null
             }
         }
 
-        fun dateTimeToString(dateTime: LocalDateTime?): String? {
-            return dateTime?.format(dateTimeFormatter)
+        fun dateTimeToString(dateTime: Date?): String?{
+            val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+            if(dateTime != null){
+                return dateFormat.format(dateTime)
+            }
+            return null
         }
 
     }
 
     override fun toString(): String {
-        return "$tripID,$boardingStationID,$boardingStation,${boardingDateTimeToString()},$dropOffStationID,$dropOffStation,${dropOffDateTimeToString()},$fare"
+        return "$tripID,$boardingStationID,$boardingStation,${boardingDateTime},$dropOffStationID,$dropOffStation,${dropOffDateTime},$fare"
     }
 
 

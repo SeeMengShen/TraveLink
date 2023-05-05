@@ -6,14 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import my.edu.tarc.travelink.R
 import my.edu.tarc.travelink.databinding.FragmentScanSuccessfulBinding
+import my.edu.tarc.travelink.ui.account.data.UserViewModel
+import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
 import my.edu.tarc.travelink.ui.wallet.data.TripViewModel
 
 class ScanSuccessfulFragment : Fragment() {
 
     private val tripViewModel: TripViewModel by activityViewModels ()
+    private val uvm: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentScanSuccessfulBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,14 +69,18 @@ class ScanSuccessfulFragment : Fragment() {
                 tripViewModel.currentTrip = null
             }
 
+            tripViewModel.tripHistory.observe(requireActivity(), Observer{
+                updateTrip()
+            })
         }
-
-
-
         binding.scanSuccessfulOKButton.setOnClickListener {
             findNavController().navigateUp()
             findNavController().navigateUp()
         }
     }
 
+    fun updateTrip(){
+        CURRENT_USER.value!!.trips = tripViewModel.tripHistory.value
+        uvm.updateTrips()
+    }
 }

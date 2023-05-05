@@ -1,10 +1,7 @@
 package my.edu.tarc.travelink.ui.wallet.data
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 
 import java.time.*
@@ -35,7 +32,12 @@ class TripViewModel(application: Application) : AndroidViewModel(application) {
             id = repository.add(trip)
             currentTrip!!.tripID = id.toInt()
         }
+    }
 
+    fun addExistingTrip(trip: Trip){
+        viewModelScope.launch {
+            repository.add(trip)
+        }
     }
 
     fun updateTrip(trip: Trip) {
@@ -55,5 +57,6 @@ class TripViewModel(application: Application) : AndroidViewModel(application) {
             repository.addCount(stationID, typeOfCount)
         }
     }
+
 
 }

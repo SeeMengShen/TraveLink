@@ -12,7 +12,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import my.edu.tarc.travelink.databinding.ActivityMainBinding
+import my.edu.tarc.travelink.ui.account.data.UserViewModel
+import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
+import my.edu.tarc.travelink.ui.login.data.User
 import my.edu.tarc.travelink.ui.util.TripAdapter
 import my.edu.tarc.travelink.ui.wallet.data.Trip
 import my.edu.tarc.travelink.ui.wallet.data.TripViewModel
@@ -32,9 +37,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-
         //-------------------trip------------------------------
-        tripViewModel = ViewModelProvider(this,
+        tripViewModel = ViewModelProvider(
+            this,
         ).get(TripViewModel::class.java)
 
         val adapter = TripAdapter()
@@ -61,26 +66,21 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
 
-
         //-------------------fab---------------------
         binding.fabScan.setOnClickListener {
             navController.navigate(R.id.scanQRCodeFragment)
         }
 
 
-
         //disable the camera fab and nav view (3 bottom) here
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.fabScan.visibility = when (destination.id) {
                 R.id.homeFragment, R.id.walletFragment, R.id.accountFragment -> View.VISIBLE
-                    else -> View.INVISIBLE
+                else -> View.INVISIBLE
             }
-            binding.navView.visibility =binding.fabScan.visibility
+            binding.navView.visibility = binding.fabScan.visibility
 
         }
-
-
-
 
 
     }

@@ -18,26 +18,38 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import my.edu.tarc.travelink.MainActivity
 import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
+import my.edu.tarc.travelink.ui.login.data.User
 
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
-    private val navController by lazy {findNavController()}
+    private val navController by lazy { findNavController() }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         auth = FirebaseAuth.getInstance()
 
-        with(binding){
-            loginForgetPasswordButton.setOnClickListener() {navController.navigate(R.id.forgetPasswordFragment)}
-            loginLoginButton.setOnClickListener() {login()}
-            loginRegisterButton.setOnClickListener() {navController.navigate(R.id.registerFragment)}
+        with(binding) {
+            loginForgetPasswordButton.setOnClickListener() { navController.navigate(R.id.forgetPasswordFragment) }
+            loginLoginButton.setOnClickListener() { login() }
+            loginRegisterButton.setOnClickListener() { navController.navigate(R.id.registerFragment) }
         }
 
-        if(auth.currentUser != null){
-            Firebase.firestore.collection("user").document(auth.currentUser!!.email.toString()).get().addOnSuccessListener { snap ->
-                CURRENT_USER = snap?.toObject()!!
+        if (auth.currentUser != null) {
+            val firebaseUser =
+                Firebase.firestore.collection("users").document(auth.currentUser!!.email.toString())
+            firebaseUser.get().addOnSuccessListener { snap ->
+                CURRENT_USER.value = snap?.toObject()!!
+
+                Firebase.firestore.collection("users").document(CURRENT_USER.value!!.email)
+                    .addSnapshotListener() { snap, _ ->
+                        CURRENT_USER.value = snap?.toObject(User::class.java)!!
+                    }
             }
 
             val intent = Intent(context, MainActivity::class.java)
@@ -52,22 +64,28 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-    private fun login(){
+    private fun login() {
         val email = binding.loginEmailEditText.text.toString()
         val password = binding.loginPasswordEditText.text.toString()
 
-        if(email.isBlank() || password.isBlank()){
+        if (email.isBlank() || password.isBlank()) {
             toast("Email and Password can't be blank")
             return
         }
 
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(){
-            if(it.isSuccessful){
-                if(auth.currentUser!!.isEmailVerified){
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener() {
+            if (it.isSuccessful) {
+                if (auth.currentUser!!.isEmailVerified) {
                     toast("Login Successful")
-                    Firebase.firestore.collection("users").document(email).get().addOnSuccessListener { snap->
-                        CURRENT_USER = snap?.toObject()!!
-                    }
+                    Firebase.firestore.collection("users").document(email).get()
+                        .addOnSuccessListener { snap ->
+                            CURRENT_USER.value = snap?.toObject()!!
+
+                            Firebase.firestore.collection("users").document(CURRENT_USER.value!!.email)
+                                .addSnapshotListener() { snap, _ ->
+                                    CURRENT_USER.value = snap?.toObject(User::class.java)!!
+                                }
+                        }
 
                     val intent = Intent(context, MainActivity::class.java)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -77,12 +95,10 @@ class LoginFragment : Fragment() {
 
                     startActivity(intent)
 
-                }
-                else{
+                } else {
                     toast("Please verify your email address")
                 }
-            }
-            else{
+            } else {
                 toast("Invalid Login Detail")
             }
         }
@@ -93,7 +109,7 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 
-    private fun toast(text: String){
+    private fun toast(text: String) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 }

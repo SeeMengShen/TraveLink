@@ -31,7 +31,6 @@ class TripAdapter : RecyclerView.Adapter<TripAdapter.ViewHolder>() {
     internal fun setTrips(trips: List<Trip>) {
         this.tripList = trips
         notifyDataSetChanged()
-
     }
 
 

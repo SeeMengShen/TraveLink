@@ -12,59 +12,64 @@ import my.edu.tarc.travelink.databinding.FragmentRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import my.edu.tarc.travelink.ui.login.data.User
 
 class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
-    private val navController by lazy {findNavController()}
+    private val navController by lazy { findNavController() }
     private val firebaseUser = Firebase.firestore.collection("users")
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         auth = FirebaseAuth.getInstance()
 
-        with(binding){
-            registerLoginButton.setOnClickListener(){navController.navigateUp()}
-            registerRegisterButton.setOnClickListener(){register()}
+        with(binding) {
+            registerLoginButton.setOnClickListener() { navController.navigateUp() }
+            registerRegisterButton.setOnClickListener() { register() }
         }
 
         return binding.root
     }
 
-    private fun register(){
+    private fun register() {
         val userName = binding.registerNameEditText.text.toString()
         val userEmail = binding.registerEmailEditText.text.toString()
         val userPassword = binding.registerPasswordEditText.text.toString()
         val userConfirmPassword = binding.registerConfirmPasswordEditText.text.toString()
         val userTnCCheckbox = binding.registerTnCCheckbox
 
-        if(userName.isBlank() || userEmail.isBlank() || userPassword.isBlank() || userConfirmPassword.isBlank()){
+        if (userName.isBlank() || userEmail.isBlank() || userPassword.isBlank() || userConfirmPassword.isBlank()) {
             toast("Username, Email and Password fields cannot be blank.")
             return
         }
 
-        if(userPassword != userConfirmPassword){
+        if (userPassword != userConfirmPassword) {
             toast("Confirm Password does not match with Password.")
             return
         }
 
-        if(!userTnCCheckbox.isChecked){
+        if (!userTnCCheckbox.isChecked) {
             toast("Please check on the Terms and Condition before proceeding.")
             return
         }
 
-        auth.createUserWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener{task ->
+        auth.createUserWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener { task ->
             val user = auth.currentUser
 
-            if(task.isComplete){
-                user!!.sendEmailVerification().addOnCompleteListener{
-                    if(task.isSuccessful){
+            if (task.isComplete) {
+                user!!.sendEmailVerification().addOnCompleteListener {
+                    if (task.isSuccessful) {
                         toast("Registration Successful, please check yor email address for verification!")
                         writeNewUser(userEmail, userName)
                         auth.signOut()
                         navController.navigateUp()
-                    } else{
+                    } else {
                         Toast.makeText(context, task.exception!!.message, Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -72,9 +77,26 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun writeNewUser(userEmail: String, userName: String){
-        val newUser = hashMapOf(
-            "username" to userName
+    private fun writeNewUser(userEmail: String, userName: String) {
+        /*val newUser = hashMapOf(
+            "email" to userEmail,
+            "name" to userName,
+            "phone" to "",
+            "gender" to "",
+            "malaysian" to false,
+            "idNum" to "",
+            "balance" to 0f
+        )*/
+
+        val newUser = User(
+            userEmail,
+            userName,
+            "",
+            "",
+            false,
+            "",
+            0f,
+            emptyList()
         )
 
         firebaseUser.document(userEmail).set(newUser)
@@ -85,7 +107,7 @@ class RegisterFragment : Fragment() {
         _binding = null
     }
 
-    private fun toast(text: String){
+    private fun toast(text: String) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 }

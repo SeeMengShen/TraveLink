@@ -1,14 +1,8 @@
 package my.edu.tarc.travelink.ui.wallet.data
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 
 class TripRepository(private val tripDao: TripDao) {
@@ -20,6 +14,10 @@ class TripRepository(private val tripDao: TripDao) {
         val database =
             Firebase.database("https://mad-ass-94890-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
 
+    }
+
+    fun sync(){
+        tripDao.getAlTrip()
     }
 
     /*init {
@@ -36,9 +34,16 @@ class TripRepository(private val tripDao: TripDao) {
     }*/
 
     @Suppress("RedundantSuspendModifier")
-    @WorkerThread
+    /*@WorkerThread
     suspend fun add(trip: Trip): Long {
         return tripDao.insert(trip)
+    }*/
+
+    @WorkerThread
+    suspend fun add(trip: Trip): Long {
+        val id =  tripDao.insert(trip)
+        tripDao.update(trip)
+        return id
     }
 
     @WorkerThread

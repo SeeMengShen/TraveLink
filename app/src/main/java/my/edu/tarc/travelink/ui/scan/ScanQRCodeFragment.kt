@@ -25,6 +25,7 @@ import my.edu.tarc.travelink.ui.wallet.data.TripViewModel
 import org.json.JSONObject
 import java.lang.reflect.InvocationTargetException
 import java.time.LocalDateTime
+import java.util.*
 
 class ScanQRCodeFragment : Fragment() {
     private val tripViewModel: TripViewModel by activityViewModels()
@@ -137,7 +138,7 @@ class ScanQRCodeFragment : Fragment() {
             tripViewModel.currentTrip = Trip(
                 boardingStationID = stationID,
                 boardingStation = stationName,
-                boardingDateTime = LocalDateTime.now()
+                boardingDateTime = Date()
             )
 
         }
@@ -146,7 +147,7 @@ class ScanQRCodeFragment : Fragment() {
             with(tripViewModel.currentTrip!!){
                 dropOffStation = stationName
                 dropOffStationID = stationID
-                dropOffDateTime = LocalDateTime.now()
+                dropOffDateTime = Date()
                 fare = 3.0f
             }
 

@@ -1,7 +1,9 @@
 package my.edu.tarc.travelink
 
 import android.os.Bundle
+import android.service.autofill.UserData
 import android.view.View
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
@@ -22,6 +24,7 @@ import my.edu.tarc.travelink.ui.util.TripAdapter
 import my.edu.tarc.travelink.ui.wallet.data.Trip
 import my.edu.tarc.travelink.ui.wallet.data.TripViewModel
 import kotlin.text.Typography.dagger
+import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         tripViewModel = ViewModelProvider(
             this,
         ).get(TripViewModel::class.java)
+
 
         val adapter = TripAdapter()
 
@@ -68,7 +72,15 @@ class MainActivity : AppCompatActivity() {
 
         //-------------------fab---------------------
         binding.fabScan.setOnClickListener {
-            navController.navigate(R.id.scanQRCodeFragment)
+
+            //check balance enough or not
+            if (CURRENT_USER.value!!.balance.toString().toFloat() < 5f) {
+                Toast.makeText(this, "Balance not enough, please top up!", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                //go to camera
+                navController.navigate(R.id.scanQRCodeFragment)
+            }
         }
 
 

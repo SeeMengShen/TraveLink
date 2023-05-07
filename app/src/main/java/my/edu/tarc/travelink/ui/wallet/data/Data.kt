@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Entity(tableName = "Trip")
-data class Trip(
+    data class Trip(
 
     @PrimaryKey(autoGenerate = true)
     var tripID: Int = 0,
@@ -61,7 +61,12 @@ data class Trip(
     }
 
     fun boardingDateTimeToString(): String{
-        return dateTimeToString(boardingDateTime)!!
+        return if(dateTimeToString(boardingDateTime ) == null){
+            dateTimeToString(Date())!!
+        }else{
+            dateTimeToString(boardingDateTime)!!
+        }
+
     }
 
     fun dropOffDateTimeToString(): String? {

@@ -95,24 +95,27 @@ class LoginFragment : Fragment() {
                         .addOnSuccessListener { snap ->
                             CURRENT_USER.value = snap?.toObject()!!
 
-                            Firebase.firestore.collection("users").document(CURRENT_USER.value!!.email)
+                            val imageRef = Firebase.storage.getReferenceFromUrl("gs://travelink-dc333.appspot.com/usersProfilePicture/$email")
+                            val defaultImageRef = Firebase.storage.getReferenceFromUrl("gs://travelink-dc333.appspot.com/usersProfilePicture/travelink_logo.png")
+                            val filename = "profile.png"
+                            val file = File(this.context?.filesDir, filename)
+                            imageRef.getBytes(1024*1024).addOnSuccessListener { byteArray->
+                                val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.count())
+                                saveProfilePicture(bitmap)
+                            }.addOnFailureListener {
+                                defaultImageRef.getBytes(1024*1024).addOnSuccessListener{ defaultByteArray->
+                                    val defaultBitmap = BitmapFactory.decodeByteArray(defaultByteArray, 0, defaultByteArray.count())
+                                    saveProfilePicture(defaultBitmap)
+                                }
+                            }
+                            imageRef.getFile(file)
+
+                            /*Firebase.firestore.collection("users").document(CURRENT_USER.value!!.email)
                                 .addSnapshotListener() { snap, _ ->
-                                    val imageRef = Firebase.storage.getReferenceFromUrl("gs://travelink-dc333.appspot.com/usersProfilePicture/$email")
-                                    val defaultImageRef = Firebase.storage.getReferenceFromUrl("gs://travelink-dc333.appspot.com/usersProfilePicture/travelink_logo.png")
-                                    val filename = "profile.png"
-                                    val file = File(this.context?.filesDir, filename)
-                                    imageRef.getBytes(1024*1024).addOnSuccessListener { byteArray->
-                                        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.count())
-                                        saveProfilePicture(bitmap)
-                                    }.addOnFailureListener {
-                                        defaultImageRef.getBytes(1024*1024).addOnSuccessListener{ defaultByteArray->
-                                            val defaultBitmap = BitmapFactory.decodeByteArray(defaultByteArray, 0, defaultByteArray.count())
-                                            saveProfilePicture(defaultBitmap)
-                                        }
-                                    }
-                                    imageRef.getFile(file)
+
                                     CURRENT_USER.value = snap?.toObject(User::class.java)!!
-                                }                        }
+                                }*/
+                        }
 
                     val intent = Intent(context, MainActivity::class.java)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)

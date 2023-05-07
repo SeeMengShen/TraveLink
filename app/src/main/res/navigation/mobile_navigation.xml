@@ -13,7 +13,7 @@
     <fragment
         android:id="@+id/walletFragment"
         android:name="my.edu.tarc.travelink.ui.wallet.WalletFragment"
-        android:label="fragment_wallet"
+        android:label="@string/title_wallet"
         tools:layout="@layout/fragment_wallet" />
     <fragment
         android:id="@+id/accountFragment"
@@ -38,41 +38,41 @@
     <fragment
         android:id="@+id/topUpFragment"
         android:name="my.edu.tarc.travelink.ui.wallet.topup.TopUpFragment"
-        android:label="fragment_top_up"
+        android:label="@string/top_up"
         tools:layout="@layout/fragment_top_up" />
     <fragment
         android:id="@+id/scanQRCodeFragment"
         android:name="my.edu.tarc.travelink.ui.scan.ScanQRCodeFragment"
-        android:label="fragment_scan_qr_code"
+        android:label="@string/scanQR"
         tools:layout="@layout/fragment_scan_qr_code" />
     <fragment
         android:id="@+id/scanSuccessfulFragment"
         android:name="my.edu.tarc.travelink.ui.scan.ScanSuccessfulFragment"
-        android:label="fragment_scan_successful"
+        android:label="@string/scanSuccess"
         tools:layout="@layout/fragment_scan_successful" />
     <fragment
         android:id="@+id/newsDetailFragment"
         android:name="my.edu.tarc.travelink.ui.home.news.NewsDetailFragment"
-        android:label="fragment_news_detail"
+        android:label="@string/newsDetailTitle"
         tools:layout="@layout/fragment_news_detail" />
     <fragment
         android:id="@+id/newsFragment"
         android:name="my.edu.tarc.travelink.ui.home.news.NewsFragment"
-        android:label="fragment_news"
+        android:label="@string/titleNews"
         tools:layout="@layout/fragment_news" />
     <fragment
         android:id="@+id/scheduleFragment"
         android:name="my.edu.tarc.travelink.ui.home.schedule.ScheduleFragment"
-        android:label="ScheduleFragment" />
+        android:label="@string/scheduleItemDetails" />
     <fragment
         android:id="@+id/liveBusTrackingFragment"
         android:name="my.edu.tarc.travelink.ui.home.liveBusTracking.LiveBusTrackingFragment"
-        android:label="fragment_live_bus_tracking"
+        android:label="@string/liveBusTrack"
         tools:layout="@layout/fragment_live_bus_tracking" />
     <fragment
         android:id="@+id/scheduleItemDetailFragment"
         android:name="my.edu.tarc.travelink.ui.home.schedule.ScheduleItemDetailFragment"
-        android:label="fragment_schedule_item_detail"
+        android:label="@string/scheduleItemDetails"
         tools:layout="@layout/fragment_schedule_item_detail" />
 
 </navigation>

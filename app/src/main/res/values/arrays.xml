@@ -8,4 +8,10 @@
         <item>All</item>
     </string-array>
 
+    <string-array name="category">
+        <item>Bus service</item>
+        <item>Application</item>
+        <item>Top up issue</item>
+        <item>Others</item>
+    </string-array>
 </resources>

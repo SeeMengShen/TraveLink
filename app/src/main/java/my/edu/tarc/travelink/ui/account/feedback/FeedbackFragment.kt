@@ -38,7 +38,15 @@ class FeedbackFragment : Fragment() {
         if (validate()) {
             with(binding) {
 
+                val category = when(feedbackCategorySpinner.selectedItemPosition){
+                    0 -> "Bus service"
+                    1 -> "Application"
+                    2 -> "Top up issue"
+                    else -> "Others"
+                }
+
                 val feedback = hashMapOf(
+                    "Category" to category,
                     "Subject" to feedbackSubjectEditText.text.toString(),
                     "Date" to Date(),
                     "Message" to feedbackMessage.text.toString()

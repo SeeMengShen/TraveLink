@@ -8,16 +8,16 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="my.edu.tarc.travelink.ui.login.RegisterFragment"
-        android:label="fragment_register"
+        android:label="@string/register"
         tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="my.edu.tarc.travelink.ui.login.LoginFragment"
-        android:label="fragment_login"
+        android:label="@string/loginLogin"
         tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/forgetPasswordFragment"
         android:name="my.edu.tarc.travelink.ui.login.ForgetPasswordFragment"
-        android:label="fragment_forget_password"
+        android:label="@string/forgetPassword"
         tools:layout="@layout/fragment_forget_password" />
 </navigation>

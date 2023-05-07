@@ -71,8 +71,10 @@
 
 
     <string name="loginRegister">Don\'t have an account? \n Create an account</string>
+    <string name="register">Register</string>
     <string name="loginLogin">Login</string>
     <string name="loginForgetPassword">Forget Password?</string>
+    <string name="forgetPassword">Forget Password?</string>
     <string name="loginPassword">Password</string>
     <string name="loginEmail">Email</string>
     <string name="loginEmailHint">example@email.com</string>
@@ -98,4 +100,8 @@
     <string name="titleNews">News</string>
     <string name="titleNewsDetail">News Detail</string>
     <string name="homeSearchSchedule">Search Schedule </string>
+    <string name="scanQR">Scan QR</string>
+    <string name="scanSuccess">Scan QR Successful</string>
+    <string name="scheduleItemDetails">Schedule Details</string>
+    <string name="liveBusTrack">Live Bus Tracking</string>
 </resources>

@@ -46,6 +46,12 @@ class TripViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun clearTrip(){
+        viewModelScope.launch {
+            repository.clear()
+        }
+    }
+
     fun deleteTrip(trip: Trip) {
         viewModelScope.launch {
             repository.delete(trip)

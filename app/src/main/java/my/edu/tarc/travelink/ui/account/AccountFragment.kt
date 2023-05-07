@@ -2,12 +2,15 @@ package my.edu.tarc.travelink.ui.account
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
@@ -19,11 +22,15 @@ import my.edu.tarc.travelink.databinding.ActivityMainBinding
 import my.edu.tarc.travelink.databinding.FragmentAccountBinding
 import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
 import my.edu.tarc.travelink.ui.login.data.User
+import my.edu.tarc.travelink.ui.wallet.data.TripViewModel
+import java.io.File
+import java.io.FileNotFoundException
 
 class AccountFragment : Fragment() {
 
     private lateinit var binding: FragmentAccountBinding
     private lateinit var auth: FirebaseAuth
+    private val tripViewModel : TripViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +40,15 @@ class AccountFragment : Fragment() {
         binding = FragmentAccountBinding.inflate(inflater, container, false)
 
         val navController = findNavController()
-
+        val image = readProfilePicture()
         with(binding) {
+
+            if (image != null) {
+                binding.accountProfilePictureImageView.setImageBitmap(image)
+            } else {
+                binding.accountProfilePictureImageView.setImageResource(R.drawable.travelink_logo)
+            }
+
             accountNameTextView.text = CURRENT_USER.value!!.name
             accountEmailTextView.text = CURRENT_USER.value!!.email
             accountChangePasswordBtn.setOnClickListener() { promptDialog("Confirm to reset password?", 1) }
@@ -72,6 +86,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun logout() {
+        tripViewModel.clearTrip()
         auth.signOut()
 
         val intent = Intent(context, LoginActivity::class.java)
@@ -84,6 +99,21 @@ class AccountFragment : Fragment() {
 
         CURRENT_USER.value = User()
         toast("Log out successfully!")
+    }
+
+    private fun readProfilePicture(): Bitmap? {
+        val filename = "profile.png"
+        val file = File(this.context?.filesDir, filename)
+
+        if (file.isFile) {
+            try {
+                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                return bitmap
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            }
+        }
+        return null
     }
 
     private fun toast(text: String) {

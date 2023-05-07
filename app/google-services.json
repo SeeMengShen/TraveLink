@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "708751028260",
-    "firebase_url": "https://mad-ass-94890-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "mad-ass-94890",
-    "storage_bucket": "mad-ass-94890.appspot.com"
+    "project_number": "140833973764",
+    "firebase_url": "https://travelink-dc333-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "travelink-dc333",
+    "storage_bucket": "travelink-dc333.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:708751028260:android:eb6cb145ebe0926b44a8b1",
+        "mobilesdk_app_id": "1:140833973764:android:c16337fdda864378d13751",
         "android_client_info": {
           "package_name": "my.edu.tarc.travelink"
         }
       },
       "oauth_client": [
         {
-          "client_id": "708751028260-meglhn01ef2m5n2h7rb75o4pkd3m0qok.apps.googleusercontent.com",
+          "client_id": "140833973764-6oh7ts9s9372u7vcq7jh6l5hlojl1vfj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCdn9xuGVm8R9JgP0a6DXGChBNcygMArF4"
+          "current_key": "AIzaSyBkoKbKPs_dqV1I5odZ4psSqL9i4UwB7zA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "708751028260-meglhn01ef2m5n2h7rb75o4pkd3m0qok.apps.googleusercontent.com",
+              "client_id": "140833973764-6oh7ts9s9372u7vcq7jh6l5hlojl1vfj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

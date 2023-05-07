@@ -14,6 +14,9 @@ interface TripDao {
     @Delete
     suspend fun delete(trip: Trip)
 
+    @Query("DELETE FROM Trip")
+    suspend fun clear()
+
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(trip: Trip)
 }

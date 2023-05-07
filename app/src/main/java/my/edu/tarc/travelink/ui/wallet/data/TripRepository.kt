@@ -12,8 +12,7 @@ class TripRepository(private val tripDao: TripDao) {
 
     companion object {
         val database =
-            Firebase.database("https://mad-ass-94890-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
-
+            Firebase.database("https://travelink-dc333-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
     }
 
     fun sync(){
@@ -44,6 +43,11 @@ class TripRepository(private val tripDao: TripDao) {
         val id =  tripDao.insert(trip)
         tripDao.update(trip)
         return id
+    }
+
+    @WorkerThread
+    suspend fun clear(){
+        tripDao.clear()
     }
 
     @WorkerThread

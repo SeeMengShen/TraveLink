@@ -6,16 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import my.edu.tarc.travelink.R
 import my.edu.tarc.travelink.databinding.FragmentTopUpBinding
+import my.edu.tarc.travelink.ui.account.data.UserViewModel
 import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
 
 class TopUpFragment : Fragment() {
 
-
+    private val uvm : UserViewModel by activityViewModels()
     private lateinit var binding: FragmentTopUpBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,8 +26,6 @@ class TopUpFragment : Fragment() {
 
         // Inflate the layout for this fragment
         binding = FragmentTopUpBinding.inflate(inflater, container, false)
-
-
 
         return binding.root
     }
@@ -59,17 +59,11 @@ class TopUpFragment : Fragment() {
                 if (inputBalance.isNullOrEmpty() || inputBalance.toString().toFloat() < 10f) {
                     toast("Minimum reload amount is RM 10!!")
                 } else {
-                    Firebase.firestore.collection("users").document(CURRENT_USER.value!!.email)
-                        .update(
-                            "balance",
-                            CURRENT_USER.value!!.balance + inputBalance.toString().toFloat()
-                        )
-
-                    toast("RM %.2f topped up!".format(inputBalance.toString().toFloat()))
+                    val topupValue = inputBalance.toString().toFloat()
+                    uvm.topup(topupValue)
+                    toast("RM %.2f topped up!".format(topupValue))
                     findNavController().navigateUp()
                 }
-
-
             }
         }
 

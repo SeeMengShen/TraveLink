@@ -2,11 +2,17 @@ package my.edu.tarc.travelink.ui.account.editDetails
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.text.set
@@ -16,6 +22,9 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import my.edu.tarc.travelink.R
 import my.edu.tarc.travelink.databinding.FragmentAboutUsBinding
@@ -23,6 +32,10 @@ import my.edu.tarc.travelink.databinding.FragmentEditDetailsBinding
 import my.edu.tarc.travelink.ui.account.data.UserViewModel
 import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
 import my.edu.tarc.travelink.ui.login.data.User
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.OutputStream
 
 class EditDetailsFragment : Fragment() {
 
@@ -50,7 +63,36 @@ class EditDetailsFragment : Fragment() {
 
         with(binding) {
             editDetailsSelectPhotoBtn.setOnClickListener() { selectImg() }
-            editDetailsSaveBtn.setOnClickListener() { updateUserInfo() }
+            editDetailsSaveBtn.setOnClickListener() {
+                val name = binding.editDetailsNameEditText.text.toString().trim()
+                val phone = binding.editDetailsPhoneNumberEditText.text.toString().trim()
+                val gender = when (binding.editDetailsGenderRadioGroup.checkedRadioButtonId) {
+                    R.id.editDetailsGenderFemaleRadioBtn -> getString(R.string.editDetailsGenderFemale)
+                    else -> getString(R.string.editDetailsGenderMale)
+                }
+                val malaysian =
+                    when (binding.editDetailsNationailityRadioGroup.checkedRadioButtonId) {
+                        R.id.editDetailsNationalityMalaysian -> true
+                        else -> false
+                    }
+                val idNum = binding.editDetailsIDNumberEditText.text.toString().trim()
+
+                val err = uvm.validate(name)
+
+                if (err != "") {
+                    toast(err)
+                } else {
+                    saveProfilePicture(binding.editDetailsAccountProfilePictureImageView)
+
+                    lifecycleScope.launch {
+                        uploadProfilePicture()
+                        uvm.updateUser(name, phone, gender, malaysian, idNum)
+                    }.invokeOnCompletion {
+                        nav.navigateUp()
+                        toast("Updated successfully!")
+                    }
+                }
+            }
         }
 
         return binding.root
@@ -62,8 +104,66 @@ class EditDetailsFragment : Fragment() {
         launcher.launch(intent)
     }
 
+    private fun saveProfilePicture(view: View) {
+        val filename = "profile.png"
+        val file = File(this.context?.filesDir, filename)
+        val image = view as ImageView
+
+        val bd = image.drawable as BitmapDrawable
+        val bitmap = bd.bitmap
+        val outputStream: OutputStream
+
+        try {
+            outputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 50, outputStream)
+            outputStream.flush()
+            outputStream.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun readProfilePicture(): Bitmap? {
+        val filename = "profile.png"
+        val file = File(this.context?.filesDir, filename)
+
+        if (file.isFile) {
+            try {
+                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                return bitmap
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            }
+        }
+        return null
+    }
+
+    private fun uploadProfilePicture() {
+        val filename = "profile.png"
+        val file = Uri.fromFile(File(this.context?.filesDir, filename))
+
+        try {
+            val storageRef = Firebase.storage("gs://travelink-dc333.appspot.com").reference
+
+            val profilePictureRef = storageRef.child("usersProfilePicture").child(CURRENT_USER.value!!.email)
+            profilePictureRef.putFile(file)
+
+        } catch (ex: FileNotFoundException) {
+            Log.d("EditDetailsFragment", "Profile picture not found")
+        }
+
+    }
+
     private fun loadUser() {
+        val image = readProfilePicture()
         with(binding) {
+
+            if (image != null) {
+                binding.editDetailsAccountProfilePictureImageView.setImageBitmap(image)
+            } else {
+                binding.editDetailsAccountProfilePictureImageView.setImageResource(R.drawable.travelink_logo)
+            }
+
             editDetailsNameEditText.setText(CURRENT_USER.value!!.name)
             editDetailsPhoneNumberEditText.setText(CURRENT_USER.value!!.phone)
             editDetailsGenderRadioGroup.check(
@@ -80,40 +180,6 @@ class EditDetailsFragment : Fragment() {
                 }
             )
             editDetailsIDNumberEditText.setText(CURRENT_USER.value!!.idNum)
-        }
-    }
-
-    private fun updateUserInfo() {
-        val firebaseUser = Firebase.firestore.collection("users").document(CURRENT_USER.value!!.email)
-
-        val user = User(
-            email = CURRENT_USER.value!!.email,
-            name = binding.editDetailsNameEditText.text.toString().trim(),
-            phone = binding.editDetailsPhoneNumberEditText.text.toString().trim(),
-            gender = when (binding.editDetailsGenderRadioGroup.checkedRadioButtonId) {
-                R.id.editDetailsGenderFemaleRadioBtn -> getString(R.string.editDetailsGenderFemale)
-                else -> getString(R.string.editDetailsGenderMale)
-            },
-            malaysian = when (binding.editDetailsNationailityRadioGroup.checkedRadioButtonId) {
-                R.id.editDetailsNationalityMalaysian -> true
-                else -> false
-            },
-            idNum = binding.editDetailsIDNumberEditText.text.toString().trim()
-        )
-
-        lifecycleScope.launch {
-            val err = uvm.validate(user)
-
-            if (err != "") {
-                toast(err)
-                return@launch
-            }
-
-            CURRENT_USER.value = user
-            firebaseUser.set(user).addOnSuccessListener {
-                nav.navigateUp()
-                toast("Updated successfully!")
-            }
         }
     }
 

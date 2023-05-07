@@ -1,6 +1,7 @@
 package my.edu.tarc.travelink.ui.login
 
 import android.os.Bundle
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -44,13 +45,37 @@ class RegisterFragment : Fragment() {
         val userConfirmPassword = binding.registerConfirmPasswordEditText.text.toString()
         val userTnCCheckbox = binding.registerTnCCheckbox
 
-        if (userName.isBlank() || userEmail.isBlank() || userPassword.isBlank() || userConfirmPassword.isBlank()) {
-            toast("Username, Email and Password fields cannot be blank.")
+        if(userName.isBlank()){
+            binding.registerNameEditText.error = "Username cannot be empty!"
+            return
+        }
+        else if(userEmail.isBlank()){
+            binding.registerEmailEditText.error = "Email cannot be empty!"
+            return
+        }
+        else if(userPassword.isBlank()){
+            binding.registerPasswordEditText.error = "Password cannot be empty!"
+            return
+        }
+        else if(userConfirmPassword.isBlank()){
+            binding.registerConfirmPasswordEditText.error = "Confirm Password cannot be empty!"
             return
         }
 
-        if (userPassword != userConfirmPassword) {
-            toast("Confirm Password does not match with Password.")
+        if(!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches())
+        {
+            binding.registerEmailEditText.error = "Invalid email address!"
+            return
+        }
+
+        if(userPassword.length < 6){
+            binding.registerPasswordEditText.error = "Password cannot be shorter than 6 characters!"
+            return
+        }
+
+        if(userPassword != userConfirmPassword){
+            //toast("Confirm Password does not match with Password.")
+            binding.registerConfirmPasswordEditText.error = "Does not match with Password!"
             return
         }
 

@@ -32,7 +32,8 @@ class ForgetPasswordFragment : Fragment() {
         val userEmail = binding.editTextEmailAddress.text.toString()
 
         if(userEmail.isBlank()){
-            toast("Email field cannot be blank.")
+            //toast("Email field cannot be blank.")
+            binding.editTextEmailAddress.error = "Email cannot be empty!"
             return
         }
 

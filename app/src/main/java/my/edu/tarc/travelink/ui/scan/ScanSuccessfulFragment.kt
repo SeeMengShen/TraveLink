@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -16,7 +17,7 @@ import my.edu.tarc.travelink.ui.wallet.data.TripViewModel
 
 class ScanSuccessfulFragment : Fragment() {
 
-    private val tripViewModel: TripViewModel by activityViewModels ()
+    private val tripViewModel: TripViewModel by activityViewModels()
     private val uvm: UserViewModel by activityViewModels()
     private lateinit var binding: FragmentScanSuccessfulBinding
     override fun onCreateView(
@@ -33,7 +34,6 @@ class ScanSuccessfulFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         val station: String
         val dateTimeString: String
 
@@ -45,11 +45,16 @@ class ScanSuccessfulFragment : Fragment() {
                 scanSuccessfulFareTextView.visibility = View.INVISIBLE
 
                 scanSuccessfulStationNameTextView.text = tripViewModel.currentTrip!!.boardingStation
-                scanSuccessfulTimeTextView.text = tripViewModel.currentTrip!!.boardingDateTimeToString()
+                scanSuccessfulTimeTextView.text =
+                    tripViewModel.currentTrip!!.boardingDateTimeToString()
 
                 //add into db
                 tripViewModel.addTrip(tripViewModel.currentTrip!!)
-                tripViewModel.addCount(tripViewModel.currentTrip!!.boardingStationID.toInt(),TripViewModel.boardingCount)
+                tripViewModel.addCount(
+                    tripViewModel.currentTrip!!.boardingStationID.toInt(),
+                    TripViewModel.boardingCount
+                )
+
             }
 
             //if drop off
@@ -59,18 +64,24 @@ class ScanSuccessfulFragment : Fragment() {
                 scanSuccessfulFareTextView.visibility = View.VISIBLE
 
                 scanSuccessfulStationNameTextView.text = tripViewModel.currentTrip!!.dropOffStation
-                scanSuccessfulTimeTextView.text = tripViewModel.currentTrip!!.dropOffDateTimeToString()
+                scanSuccessfulTimeTextView.text =
+                    tripViewModel.currentTrip!!.dropOffDateTimeToString()
                 scanSuccessfulFareTextView.text = tripViewModel.currentTrip!!.fare.toString()
 
                 //update into db
                 tripViewModel.updateTrip(tripViewModel.currentTrip!!)
-                tripViewModel.addCount(tripViewModel.currentTrip!!.dropOffStationID!!.toInt(),TripViewModel.dropOffCount)
+                tripViewModel.addCount(
+                    tripViewModel.currentTrip!!.dropOffStationID!!.toInt(),
+                    TripViewModel.dropOffCount
+                )
+
+                uvm.deduct(tripViewModel.currentTrip!!.fare!!)
 
                 tripViewModel.currentTrip = null
             }
 
-            tripViewModel.tripHistory.observe(requireActivity(), Observer{
-                updateTrip()
+            tripViewModel.tripHistory.observe(requireActivity(), Observer {
+                uvm.updateTrips(tripViewModel.tripHistory.value)
             })
         }
         binding.scanSuccessfulOKButton.setOnClickListener {
@@ -79,8 +90,7 @@ class ScanSuccessfulFragment : Fragment() {
         }
     }
 
-    fun updateTrip(){
-        CURRENT_USER.value!!.trips = tripViewModel.tripHistory.value
-        uvm.updateTrips()
+    private fun toast(text: String) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 }

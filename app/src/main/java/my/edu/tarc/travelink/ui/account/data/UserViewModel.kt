@@ -19,6 +19,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
 
     @WorkerThread
     fun updateTrips() = viewModelScope.launch{
+
         firebaseUser.update("trips", CURRENT_USER.value!!.trips)
     }
 

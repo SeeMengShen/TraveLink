@@ -91,4 +91,6 @@
     <string name="forgetPasswordEmail">Email</string>
     <string name="forgetPasswordSendEmail">Send Email Verification</string>
     <string name="forgetPasswordEmailHint">example@email.com</string>
+
+
 </resources>

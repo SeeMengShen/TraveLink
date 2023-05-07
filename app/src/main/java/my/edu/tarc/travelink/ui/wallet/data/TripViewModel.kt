@@ -16,9 +16,11 @@ class TripViewModel(application: Application) : AndroidViewModel(application) {
         final val dropOffCount: String = "dropOffCount"
     }
 
+
     private val repository: TripRepository
     val tripHistory: LiveData<List<Trip>>
     var currentTrip: Trip? = null
+    var earliestToLatest: Boolean = true
 
     init {
         val tripDao = TripDatabase.getDatabase(application).tripDao()

@@ -16,29 +16,35 @@ class ForgetPasswordFragment : Fragment() {
     private var _binding: FragmentForgetPasswordBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
-    private val navController by lazy {findNavController()}
+    private val navController by lazy { findNavController() }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentForgetPasswordBinding.inflate(inflater, container, false)
         auth = FirebaseAuth.getInstance()
 
-        with(binding){
-            forgetPasswordSendEmailButton.setOnClickListener() {forgetPassword()}
+        with(binding) {
+            forgetPasswordSendEmailButton.setOnClickListener() { forgetPassword() }
+            forgetRememberBtn.setOnClickListener() { navController.navigateUp() }
         }
 
         return binding.root
     }
-    private fun forgetPassword(){
+
+    private fun forgetPassword() {
         val userEmail = binding.editTextEmailAddress.text.toString()
 
-        if(userEmail.isBlank()){
+        if (userEmail.isBlank()) {
             //toast("Email field cannot be blank.")
             binding.editTextEmailAddress.error = "Email cannot be empty!"
             return
         }
 
-        auth.sendPasswordResetEmail(userEmail).addOnCompleteListener{
-            if(it.isSuccessful){
+        auth.sendPasswordResetEmail(userEmail).addOnCompleteListener {
+            if (it.isSuccessful) {
                 toast("A password reset request has been sent to your email")
                 navController.navigateUp()
             }
@@ -50,7 +56,7 @@ class ForgetPasswordFragment : Fragment() {
         _binding = null
     }
 
-    private fun toast(text: String){
+    private fun toast(text: String) {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 }

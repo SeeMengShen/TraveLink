@@ -86,6 +86,7 @@
     <string name="registerConfirmPassword">Confirm Password</string>
     <string name="registerTnC">I agree to the Terms and Conditions</string>
     <string name="registerLogin">Already have an account? \n Login!</string>
+    <string name="forgetRemember">Suddenly remembered your password?\nLogin!</string>
     <string name="registerNameHint">Bob Gigachad</string>
     <string name="registerEmailHint">example@email.com</string>
     <string name="registerPasswordHint">*********</string>
@@ -95,7 +96,7 @@
     <string name="forgetPasswordEmailHint">example@email.com</string>
 
 
-    <string name="newsDetailTitle">Title</string>
+    <string name="newsDetailTitle">News</string>
     <string name="newsDetailDate">Date</string>
     <string name="titleNews">News</string>
     <string name="titleNewsDetail">News Detail</string>

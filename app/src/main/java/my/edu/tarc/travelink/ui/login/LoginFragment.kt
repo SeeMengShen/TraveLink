@@ -109,12 +109,6 @@ class LoginFragment : Fragment() {
                                 }
                             }
                             imageRef.getFile(file)
-
-                            /*Firebase.firestore.collection("users").document(CURRENT_USER.value!!.email)
-                                .addSnapshotListener() { snap, _ ->
-
-                                    CURRENT_USER.value = snap?.toObject(User::class.java)!!
-                                }*/
                         }
 
                     val intent = Intent(context, MainActivity::class.java)

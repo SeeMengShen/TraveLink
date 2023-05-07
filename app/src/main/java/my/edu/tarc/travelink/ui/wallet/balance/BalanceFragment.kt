@@ -34,6 +34,6 @@ class BalanceFragment : Fragment() {
     }
 
     private fun updateBalanceUI(){
-        binding.balanceTotalAmountLabel2.text = CURRENT_USER.value!!.balance.toString().format("RM %.2f")
+        binding.balanceTotalAmountLabel2.text = String.format("RM %.2f", CURRENT_USER.value!!.balance)
     }
 }

@@ -93,4 +93,9 @@
     <string name="forgetPasswordEmailHint">example@email.com</string>
 
 
+    <string name="newsDetailTitle">Title</string>
+    <string name="newsDetailDate">Date</string>
+    <string name="titleNews">News</string>
+    <string name="titleNewsDetail">News Detail</string>
+    <string name="homeSearchSchedule">Search Schedule </string>
 </resources>

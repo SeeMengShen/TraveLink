@@ -1,21 +1,17 @@
 package my.edu.tarc.travelink.ui.home.schedule
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.edu.tarc.travelink.databinding.FragmentScheduleItemBinding
-import my.edu.tarc.travelink.ui.home.data.SearchResult
-
-import my.edu.tarc.travelink.ui.home.news.NewsAdapter
+import my.edu.tarc.travelink.ui.home.data.Schedule
 
 
 class ScheduleSearchAdapter(private val viewModel: ScheduleViewModel):
     RecyclerView.Adapter<ScheduleSearchAdapter.ViewHolder>(){
 
 
-    private var items = emptyList<SearchResult>()
+    private var items = emptyList<Schedule>()
 
 
     var onItemClickListener: OnItemClickListener? = null
@@ -29,7 +25,7 @@ class ScheduleSearchAdapter(private val viewModel: ScheduleViewModel):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.binding.scheduleItemText.text = item.name
+        holder.binding.scheduleItemText.text = item.scheduleTitle
 
 
         // Set up the item click listener
@@ -42,14 +38,14 @@ class ScheduleSearchAdapter(private val viewModel: ScheduleViewModel):
         return items.size
     }
 
-    fun setItems(items: List<SearchResult>) {
+    fun setItems(items: List<Schedule>) {
         this.items = items
         notifyDataSetChanged()
     }
 
 
     interface OnItemClickListener {
-        fun onItemClick(searchResult: SearchResult)
+        fun onItemClick(schedule: Schedule)
     }
 
     inner class ViewHolder(val binding: FragmentScheduleItemBinding) : RecyclerView.ViewHolder(binding.root)

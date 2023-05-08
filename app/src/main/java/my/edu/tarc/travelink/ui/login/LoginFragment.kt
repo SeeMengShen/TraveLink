@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.ktx.Firebase
@@ -24,6 +25,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.ktx.storage
 import my.edu.tarc.travelink.MainActivity
+import my.edu.tarc.travelink.ui.home.news.NewsViewModel
 import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
 import my.edu.tarc.travelink.ui.login.data.User
 import java.io.File
@@ -62,7 +64,6 @@ class LoginFragment : Fragment() {
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 requireActivity().finish()
-
                 startActivity(intent)
             }
         }
@@ -90,28 +91,13 @@ class LoginFragment : Fragment() {
                         .addOnSuccessListener { snap ->
                             CURRENT_USER.value = snap?.toObject()!!
 
-                            val imageRef = Firebase.storage.getReferenceFromUrl("gs://travelink-dc333.appspot.com/usersProfilePicture/$email")
-                            val defaultImageRef = Firebase.storage.getReferenceFromUrl("gs://travelink-dc333.appspot.com/usersProfilePicture/travelink_logo.png")
-                            //val filename = "profile.png"
-                            //val file = File(this.context?.filesDir, filename)
-
-                            imageRef.getBytes(1024*1024).addOnSuccessListener { byteArray->
-                                val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.count())
-                                saveProfilePicture(bitmap)
-                            }.addOnFailureListener {
-                                defaultImageRef.getBytes(1024*1024).addOnSuccessListener{ defaultByteArray->
-                                    val defaultBitmap = BitmapFactory.decodeByteArray(defaultByteArray, 0, defaultByteArray.count())
-                                    saveProfilePicture(defaultBitmap)
-                                }
-                            }
-                            //imageRef.getFile(file)
+                            downloadProfilePicture()
 
                             val intent = Intent(context, MainActivity::class.java)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             requireActivity().finish()
-
                             toast("Login Successful")
                             startActivity(intent)
                         }
@@ -127,6 +113,21 @@ class LoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun downloadProfilePicture(){
+        val imageRef = Firebase.storage.getReferenceFromUrl("gs://travelink-dc333.appspot.com/usersProfilePicture/${CURRENT_USER.value!!.email}")
+        val defaultImageRef = Firebase.storage.getReferenceFromUrl("gs://travelink-dc333.appspot.com/usersProfilePicture/travelink_logo.png")
+
+        imageRef.getBytes(1024*1024).addOnSuccessListener { byteArray->
+            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.count())
+            saveProfilePicture(bitmap)
+        }.addOnFailureListener {
+            defaultImageRef.getBytes(1024*1024).addOnSuccessListener{ defaultByteArray->
+                val defaultBitmap = BitmapFactory.decodeByteArray(defaultByteArray, 0, defaultByteArray.count())
+                saveProfilePicture(defaultBitmap)
+            }
+        }
     }
 
     private fun saveProfilePicture(bitmap: Bitmap) {

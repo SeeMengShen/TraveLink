@@ -1,17 +1,22 @@
 package my.edu.tarc.travelink.ui.home.news
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.edu.tarc.travelink.R
 import my.edu.tarc.travelink.ui.home.data.News
 import org.w3c.dom.Text
+import java.io.File
+import java.io.FileNotFoundException
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -40,9 +45,10 @@ class NewsAdapter(val fn:(ViewHolder, News) -> Unit): ListAdapter<News, NewsAdap
         val news = getItem(position)
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
-        news.newsPhoto?.let {  holder.newsImageView.setImageResource(it)}
+        //news.newsPhoto?.let {  holder.newsImageView.setImageResource(it)}
+        news.newsPhoto?.let {  holder.newsImageView.setImageBitmap(it)}
         holder.newsTitleView.text = news.newsTitle
-        holder.newsDateView.text = formatter.format(news.newsDate)
+        holder.newsDateView.text = /*formatter.format(*/news.newsDate//)
         holder.newsDescView.text = news.newsDesc
 
         fn(holder, news)

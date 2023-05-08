@@ -1,5 +1,7 @@
 package my.edu.tarc.travelink.ui.home.schedule
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,21 +9,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.core.os.bundleOf
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import my.edu.tarc.travelink.R
 import my.edu.tarc.travelink.databinding.FragmentScheduleBinding
-import my.edu.tarc.travelink.ui.home.data.SearchResult
-import java.util.*
-import kotlin.collections.ArrayList
-
+import my.edu.tarc.travelink.ui.home.data.Schedule
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.OutputStream
 
 
 class ScheduleFragment : Fragment() {
 
     private lateinit var adapter: ScheduleSearchAdapter
-    private lateinit var viewModel: ScheduleViewModel
+    private val svm: ScheduleViewModel by activityViewModels()
     private lateinit var binding: FragmentScheduleBinding
 
 
@@ -37,8 +42,8 @@ class ScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity()).get(ScheduleViewModel::class.java)
-        adapter = ScheduleSearchAdapter(viewModel)
+        //viewModel = ViewModelProvider(requireActivity()).get(ScheduleViewModel::class.java)
+        adapter = ScheduleSearchAdapter(svm)
 
         binding.scheduleRecycleView.adapter = adapter
         binding.scheduleRecycleView.layoutManager = LinearLayoutManager(requireContext())
@@ -49,22 +54,81 @@ class ScheduleFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.filterItems(newText?:"")
+                svm.filterItems(newText?:"")
                 return true
             }
         })
 
-        viewModel.filteredItems.observe(viewLifecycleOwner) { items ->
-            adapter.setItems(items)
-        }
+        svm.filteredItems?.observe(viewLifecycleOwner) { items ->
+            if(items != null){
 
-        adapter.onItemClickListener = object : ScheduleSearchAdapter.OnItemClickListener {
-            override fun onItemClick(searchResult: SearchResult) {
-                val action = findNavController()
-                action.navigate(R.id.scheduleItemDetailFragment, bundleOf("name" to searchResult.name))
+                items.forEachIndexed { index, schedule ->
+                    downloadSchedulePicture(index)
+                    schedule.route = readSchedulePicture(index, "r")
+                    schedule.timetable = readSchedulePicture(index, "t")
+                }
+
+                adapter.setItems(items)
             }
         }
 
+        adapter.onItemClickListener = object : ScheduleSearchAdapter.OnItemClickListener {
+            override fun onItemClick(schedule: Schedule) {
+                val action = findNavController()
+                action.navigate(R.id.scheduleItemDetailFragment, bundleOf("name" to schedule.scheduleTitle))
+            }
+        }
 
+    }
+
+    private fun downloadSchedulePicture(index: Int) {
+        val routeImageRef =
+            Firebase.storage.getReferenceFromUrl("gs://travelink-dc333.appspot.com/schedulePhoto/r$index.png")
+        val timetableImageRef =
+            Firebase.storage.getReferenceFromUrl("gs://travelink-dc333.appspot.com/schedulePhoto/t$index.png")
+
+        routeImageRef.getBytes(1024 * 1024).addOnSuccessListener { byteArray ->
+            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.count())
+            saveSchedulePicture(bitmap, index, "r")
+        }
+
+        timetableImageRef.getBytes(1024 * 1024).addOnSuccessListener { byteArray ->
+            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.count())
+            saveSchedulePicture(bitmap, index, "t")
+        }
+    }
+
+    private fun saveSchedulePicture(bitmap: Bitmap, schduleID: Int, prefix: String) {
+        val filename = "$prefix$schduleID.png"
+        val file = File(this.context?.filesDir, filename)
+        /*val image = view as ImageView
+
+        val bd = image.drawable as BitmapDrawable
+        val bitmap = bd.bitmap*/
+        val outputStream: OutputStream
+
+        try {
+            outputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 50, outputStream)
+            outputStream.flush()
+            outputStream.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun readSchedulePicture(index: Int, prefix: String): Bitmap? {
+        val filename = "$prefix$index.png"
+        val file = File(this.context?.filesDir, filename)
+
+        if (file.isFile) {
+            try {
+                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                return bitmap
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            }
+        }
+        return null
     }
 }

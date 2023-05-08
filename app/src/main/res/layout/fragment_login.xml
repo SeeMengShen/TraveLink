@@ -67,6 +67,7 @@
 
     <Button
         android:id="@+id/loginForgetPasswordButton"
+        style="@style/NoBGNoBold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:insetTop="0dp"
@@ -75,10 +76,9 @@
         android:paddingRight="4dp"
         android:paddingBottom="4dp"
         android:text="@string/loginForgetPassword"
+        android:textColor="@android:color/holo_blue_dark"
         app:layout_constraintEnd_toEndOf="@+id/loginPasswordEditText"
-        app:layout_constraintTop_toBottomOf="@+id/loginPasswordEditText"
-        style="@style/NoBGNoBold"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/loginPasswordEditText" />
 
     <Button
         android:id="@+id/loginLoginButton"
@@ -99,6 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/loginRegister"
+        android:textColor="@android:color/holo_blue_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginLoginButton" />

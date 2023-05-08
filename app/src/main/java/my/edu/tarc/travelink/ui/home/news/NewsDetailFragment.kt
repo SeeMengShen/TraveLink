@@ -50,9 +50,10 @@ class NewsDetailFragment : Fragment() {
     private fun load(news: News){
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
-        news.newsPhoto?.let {binding.newsDetailImage.setImageResource(it)}
+        //news.newsPhoto?.let {binding.newsDetailImage.setImageBitmap(it)}
+        news.newsPhoto?.let {binding.newsDetailImage.setImageBitmap(it)}
         binding.newsDetailTitle.text = news.newsTitle
-        binding.newsDetailDate.text = formatter.format(news.newsDate)
+        binding.newsDetailDate.text = /*formatter.format(*/news.newsDate//)
         binding.newsDetailDesc.text = news.newsDesc
 
     }

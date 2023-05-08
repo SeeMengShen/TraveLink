@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import my.edu.tarc.travelink.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.ktx.storage
 import my.edu.tarc.travelink.MainActivity
 import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
@@ -55,21 +57,15 @@ class LoginFragment : Fragment() {
             firebaseUser.get().addOnSuccessListener { snap ->
                 CURRENT_USER.value = snap?.toObject()!!
 
-                Firebase.firestore.collection("users").document(CURRENT_USER.value!!.email)
-                    .addSnapshotListener() { snap, _ ->
-                        CURRENT_USER.value = snap?.toObject(User::class.java)!!
-                    }
+                val intent = Intent(context, MainActivity::class.java)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                requireActivity().finish()
+
+                startActivity(intent)
             }
-
-            val intent = Intent(context, MainActivity::class.java)
-                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            requireActivity().finish()
-
-            startActivity(intent)
         }
-
         return binding.root
     }
 
@@ -90,15 +86,15 @@ class LoginFragment : Fragment() {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener() {
             if (it.isSuccessful) {
                 if (auth.currentUser!!.isEmailVerified) {
-                    toast("Login Successful")
                     Firebase.firestore.collection("users").document(email).get()
                         .addOnSuccessListener { snap ->
                             CURRENT_USER.value = snap?.toObject()!!
 
                             val imageRef = Firebase.storage.getReferenceFromUrl("gs://travelink-dc333.appspot.com/usersProfilePicture/$email")
                             val defaultImageRef = Firebase.storage.getReferenceFromUrl("gs://travelink-dc333.appspot.com/usersProfilePicture/travelink_logo.png")
-                            val filename = "profile.png"
-                            val file = File(this.context?.filesDir, filename)
+                            //val filename = "profile.png"
+                            //val file = File(this.context?.filesDir, filename)
+
                             imageRef.getBytes(1024*1024).addOnSuccessListener { byteArray->
                                 val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.count())
                                 saveProfilePicture(bitmap)
@@ -108,17 +104,17 @@ class LoginFragment : Fragment() {
                                     saveProfilePicture(defaultBitmap)
                                 }
                             }
-                            imageRef.getFile(file)
+                            //imageRef.getFile(file)
+
+                            val intent = Intent(context, MainActivity::class.java)
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            requireActivity().finish()
+
+                            toast("Login Successful")
+                            startActivity(intent)
                         }
-
-                    val intent = Intent(context, MainActivity::class.java)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    requireActivity().finish()
-
-                    startActivity(intent)
-
                 } else {
                     toast("Please verify your email address")
                 }

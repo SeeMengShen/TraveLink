@@ -25,7 +25,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     @WorkerThread
     fun updateTrips(newTrips: List<Trip>?) = viewModelScope.launch {
         CURRENT_USER.value!!.trips = newTrips
-    //fun updateTrips() = viewModelScope.launch{
         firebaseUser.update("trips", CURRENT_USER.value!!.trips)
     }
 
@@ -49,8 +48,13 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         newMalaysian: Boolean,
         newIdNum: String
     ) {
-        val firebaseUser =
-            Firebase.firestore.collection("users").document(CURRENT_USER.value!!.email)
+        with(CURRENT_USER.value!!) {
+            name = newName
+            phone = newPhone
+            gender = newGender
+            malaysian = newMalaysian
+            idNum = newIdNum
+        }
 
         firebaseUser.update(
             "name",
@@ -64,10 +68,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             "idNum",
             newIdNum
         )
-    }
-
-    fun isEnoughBalance(): Boolean {
-        return CURRENT_USER.value!!.balance >= 5f
     }
 
     fun validate(name: String): String {

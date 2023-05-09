@@ -17,29 +17,33 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import my.edu.tarc.travelink.databinding.ActivityMainBinding
+import my.edu.tarc.travelink.ui.account.data.CURRENT_USER
+import my.edu.tarc.travelink.ui.account.data.User
 import my.edu.tarc.travelink.ui.account.data.UserViewModel
 import my.edu.tarc.travelink.ui.home.news.NewsViewModel
-import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
-import my.edu.tarc.travelink.ui.login.data.User
+import my.edu.tarc.travelink.ui.home.schedule.ScheduleViewModel
 import my.edu.tarc.travelink.ui.util.TripAdapter
 import my.edu.tarc.travelink.ui.wallet.data.Trip
 import my.edu.tarc.travelink.ui.wallet.data.TripViewModel
 import kotlin.text.Typography.dagger
-import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var tripViewModel: TripViewModel
-    private lateinit var newsViewModel : NewsViewModel
-
+    private lateinit var scheduleViewModel: ScheduleViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //-------------------schedule--------------------------
+        scheduleViewModel = ViewModelProvider(
+            this,
+        ).get(ScheduleViewModel::class.java)
 
         //-------------------trip------------------------------
         tripViewModel = ViewModelProvider(

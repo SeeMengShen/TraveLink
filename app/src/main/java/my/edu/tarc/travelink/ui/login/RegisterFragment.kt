@@ -13,7 +13,7 @@ import my.edu.tarc.travelink.databinding.FragmentRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import my.edu.tarc.travelink.ui.login.data.User
+import my.edu.tarc.travelink.ui.account.data.User
 
 class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
@@ -103,16 +103,6 @@ class RegisterFragment : Fragment() {
     }
 
     private fun writeNewUser(userEmail: String, userName: String) {
-        /*val newUser = hashMapOf(
-            "email" to userEmail,
-            "name" to userName,
-            "phone" to "",
-            "gender" to "",
-            "malaysian" to false,
-            "idNum" to "",
-            "balance" to 0f
-        )*/
-
         val newUser = User(
             userEmail,
             userName,

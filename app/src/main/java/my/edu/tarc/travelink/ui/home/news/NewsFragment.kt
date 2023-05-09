@@ -19,7 +19,6 @@ import kotlinx.coroutines.launch
 import my.edu.tarc.travelink.R
 import my.edu.tarc.travelink.databinding.FragmentNewsBinding
 import my.edu.tarc.travelink.ui.home.data.News
-import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -52,6 +51,11 @@ class NewsFragment : Fragment() {
             )
         )
 
+        lifecycleScope.launch {
+            nvm.downloadNews()
+        }
+
+        // Set observer to newsList for updating the photo and resubmit it to recycleView adapter
         nvm.newsList.observe(viewLifecycleOwner) {
             nvm.newsList.value!!.forEachIndexed { index, news ->
                 downloadNewsPicture(index)
@@ -59,18 +63,17 @@ class NewsFragment : Fragment() {
             }
 
             adapter.submitList(nvm.newsList.value)
+
+            // Reset the swipeRefresh
             binding.newsSwipeRefresh.isRefreshing = false
         }
 
+        // Sync the news from database when swipe refresh
         binding.newsSwipeRefresh.setOnRefreshListener {
-            refreshNews()
+            nvm.downloadNews()
         }
 
         return binding.root
-    }
-
-    private fun refreshNews() {
-        nvm.downloadNews()
     }
 
     private fun downloadNewsPicture(index: Int) {

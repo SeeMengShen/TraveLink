@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import my.edu.tarc.travelink.R
 import my.edu.tarc.travelink.databinding.FragmentScanSuccessfulBinding
 import my.edu.tarc.travelink.ui.account.data.UserViewModel
-import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
 import my.edu.tarc.travelink.ui.wallet.data.TripViewModel
 
 class ScanSuccessfulFragment : Fragment() {

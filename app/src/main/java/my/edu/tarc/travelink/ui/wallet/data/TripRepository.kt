@@ -11,35 +11,12 @@ class TripRepository(private val tripDao: TripDao) {
 
     val allTrips: LiveData<List<Trip>> = tripDao.getAlTrip()
 
-
     companion object {
         val database =
             Firebase.database("https://travelink-dc333-default-rtdb.asia-southeast1.firebasedatabase.app/").reference
     }
 
-    fun sync(){
-        tripDao.getAlTrip()
-    }
-
-    /*init {
-        database.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                TripRepository.snapshot = snapshot
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(TAG, "Failed to read value.", error.toException())
-            }
-
-        })
-    }*/
-
     @Suppress("RedundantSuspendModifier")
-    /*@WorkerThread
-    suspend fun add(trip: Trip): Long {
-        return tripDao.insert(trip)
-    }*/
-
     @WorkerThread
     suspend fun add(trip: Trip): Long {
         val id =  tripDao.insert(trip)

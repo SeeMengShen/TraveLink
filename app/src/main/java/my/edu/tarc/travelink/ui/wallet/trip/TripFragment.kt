@@ -19,7 +19,8 @@ import com.google.android.play.integrity.internal.t
 import my.edu.tarc.travelink.R
 import my.edu.tarc.travelink.databinding.FragmentTripBinding
 import my.edu.tarc.travelink.databinding.FragmentWalletBinding
-import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
+import my.edu.tarc.travelink.ui.account.data.CURRENT_USER
+import my.edu.tarc.travelink.ui.account.data.UserViewModel
 import my.edu.tarc.travelink.ui.wallet.data.TripViewModel
 import my.edu.tarc.travelink.ui.util.TripAdapter
 import my.edu.tarc.travelink.ui.wallet.data.Trip
@@ -43,9 +44,6 @@ class TripFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentTripBinding.inflate(inflater, container, false)
-
-
-
 
         return binding.root
     }
@@ -75,7 +73,6 @@ class TripFragment : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 selectedDay = 0
             }
-
 
         }
 

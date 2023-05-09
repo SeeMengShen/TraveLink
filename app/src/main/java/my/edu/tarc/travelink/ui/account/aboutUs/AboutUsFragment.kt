@@ -26,6 +26,7 @@ class AboutUsFragment : Fragment() {
 
         requireActivity().findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.INVISIBLE
 
+        // Buttons with intent
         with(binding){
             aboutUsEmail.setOnClickListener{
                 val openEmail = Intent(Intent.ACTION_SENDTO)

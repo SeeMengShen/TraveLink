@@ -2,18 +2,13 @@ package my.edu.tarc.travelink.ui.account.data
 
 import android.app.Application
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.google.firebase.firestore.FieldValue.arrayUnion
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import my.edu.tarc.travelink.R
-import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
-import my.edu.tarc.travelink.ui.login.data.User
 import my.edu.tarc.travelink.ui.wallet.data.Trip
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
@@ -68,13 +63,5 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
             "idNum",
             newIdNum
         )
-    }
-
-    fun validate(name: String): String {
-
-        return when (name) {
-            "" -> "Don't leave your name blank!"
-            else -> ""
-        }
     }
 }

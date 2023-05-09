@@ -46,6 +46,7 @@ class NewsViewModel: ViewModel() {
             }
     }
 
+    // Convert the DBNews to News
     private fun dbNewstoNews(dbNewsList : List<DBNews>): MutableList<News>{
         val newNewsList: MutableList<News> = mutableListOf()
         dbNewsList.forEachIndexed { index, dbNews ->

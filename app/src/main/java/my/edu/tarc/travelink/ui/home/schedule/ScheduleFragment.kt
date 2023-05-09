@@ -42,7 +42,6 @@ class ScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //viewModel = ViewModelProvider(requireActivity()).get(ScheduleViewModel::class.java)
         adapter = ScheduleSearchAdapter(svm)
 
         binding.scheduleRecycleView.adapter = adapter
@@ -101,10 +100,6 @@ class ScheduleFragment : Fragment() {
     private fun saveSchedulePicture(bitmap: Bitmap, schduleID: Int, prefix: String) {
         val filename = "$prefix$schduleID.png"
         val file = File(this.context?.filesDir, filename)
-        /*val image = view as ImageView
-
-        val bd = image.drawable as BitmapDrawable
-        val bitmap = bd.bitmap*/
         val outputStream: OutputStream
 
         try {

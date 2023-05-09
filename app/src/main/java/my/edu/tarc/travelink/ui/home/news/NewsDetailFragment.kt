@@ -29,6 +29,7 @@ class NewsDetailFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentNewsDetailBinding.inflate(inflater, container,false)
 
+        // Read the news object according to the newsTitle
         val news = nvm.get(newsTitle)
 
         if(news == null) {
@@ -48,12 +49,9 @@ class NewsDetailFragment : Fragment() {
     }
 
     private fun load(news: News){
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-
-        //news.newsPhoto?.let {binding.newsDetailImage.setImageBitmap(it)}
         news.newsPhoto?.let {binding.newsDetailImage.setImageBitmap(it)}
         binding.newsDetailTitle.text = news.newsTitle
-        binding.newsDetailDate.text = /*formatter.format(*/news.newsDate//)
+        binding.newsDetailDate.text = news.newsDate
         binding.newsDetailDesc.text = news.newsDesc
 
     }

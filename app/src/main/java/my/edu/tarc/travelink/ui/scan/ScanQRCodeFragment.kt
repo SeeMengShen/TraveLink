@@ -78,14 +78,8 @@ class ScanQRCodeFragment : Fragment() {
                     }else{
                         startPreview()
                     }
-
-                    //Toast.makeText(requireActivity(), "Result: ${it.text}",Toast.LENGTH_SHORT).show()
-
                 }
             }
-
-
-
             errorCallback = ErrorCallback {
                 requireActivity().runOnUiThread{
                     Toast.makeText(requireActivity(), "Error: ${it.message}",Toast.LENGTH_SHORT).show()

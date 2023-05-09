@@ -105,4 +105,5 @@
     <string name="scanSuccess">Scan QR Successful</string>
     <string name="scheduleItemDetails">Schedule Details</string>
     <string name="liveBusTrack">Live Bus Tracking</string>
+    <string name="balanceLow">Low balance! Please top up!</string>
 </resources>

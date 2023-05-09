@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.text.isDigitsOnly
 import androidx.core.text.set
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -29,9 +30,8 @@ import kotlinx.coroutines.launch
 import my.edu.tarc.travelink.R
 import my.edu.tarc.travelink.databinding.FragmentAboutUsBinding
 import my.edu.tarc.travelink.databinding.FragmentEditDetailsBinding
+import my.edu.tarc.travelink.ui.account.data.CURRENT_USER
 import my.edu.tarc.travelink.ui.account.data.UserViewModel
-import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
-import my.edu.tarc.travelink.ui.login.data.User
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -46,7 +46,7 @@ class EditDetailsFragment : Fragment() {
                 binding.editDetailsAccountProfilePictureImageView.setImageURI((it.data?.data))
             }
         }
-    private val uvm: UserViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
     private val nav by lazy { findNavController() }
 
     override fun onCreateView(
@@ -65,7 +65,7 @@ class EditDetailsFragment : Fragment() {
             editDetailsSelectPhotoBtn.setOnClickListener() { selectImg() }
             editDetailsSaveBtn.setOnClickListener() {
                 val name = binding.editDetailsNameEditText.text.toString().trim()
-                val phone = binding.editDetailsPhoneNumberEditText.text.toString().trim()
+                val phone = binding.editDetailsPhoneNumberEditText.text.toString()
                 val gender = when (binding.editDetailsGenderRadioGroup.checkedRadioButtonId) {
                     R.id.editDetailsGenderFemaleRadioBtn -> getString(R.string.editDetailsGenderFemale)
                     else -> getString(R.string.editDetailsGenderMale)
@@ -77,16 +77,14 @@ class EditDetailsFragment : Fragment() {
                     }
                 val idNum = binding.editDetailsIDNumberEditText.text.toString().trim()
 
-                val err = uvm.validate(name)
-
-                if (err != "") {
-                    toast(err)
+                if (name == "") {
+                    toast("Don't leave your name blank!")
                 } else {
                     saveProfilePicture(binding.editDetailsAccountProfilePictureImageView)
 
                     lifecycleScope.launch {
                         uploadProfilePicture()
-                        uvm.updateUser(name, phone, gender, malaysian, idNum)
+                        userViewModel.updateUser(name, phone, gender, malaysian, idNum)
                     }.invokeOnCompletion {
                         nav.navigateUp()
                         toast("Updated successfully!")
@@ -145,7 +143,8 @@ class EditDetailsFragment : Fragment() {
         try {
             val storageRef = Firebase.storage("gs://travelink-dc333.appspot.com").reference
 
-            val profilePictureRef = storageRef.child("usersProfilePicture").child(CURRENT_USER.value!!.email)
+            val profilePictureRef =
+                storageRef.child("usersProfilePicture").child(CURRENT_USER.value!!.email)
             profilePictureRef.putFile(file)
 
         } catch (ex: FileNotFoundException) {
@@ -155,6 +154,8 @@ class EditDetailsFragment : Fragment() {
     }
 
     private fun loadUser() {
+        // Get existing user data to fill in the edit text field
+
         val image = readProfilePicture()
         with(binding) {
 

@@ -13,7 +13,6 @@ import com.google.firebase.ktx.Firebase
 import my.edu.tarc.travelink.R
 import my.edu.tarc.travelink.databinding.FragmentTopUpBinding
 import my.edu.tarc.travelink.ui.account.data.UserViewModel
-import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
 
 class TopUpFragment : Fragment() {
 

@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.ktx.Firebase
@@ -25,9 +26,8 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.ktx.storage
 import my.edu.tarc.travelink.MainActivity
-import my.edu.tarc.travelink.ui.home.news.NewsViewModel
-import my.edu.tarc.travelink.ui.login.data.CURRENT_USER
-import my.edu.tarc.travelink.ui.login.data.User
+import my.edu.tarc.travelink.ui.account.data.CURRENT_USER
+import my.edu.tarc.travelink.ui.account.data.UserViewModel
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -75,7 +75,6 @@ class LoginFragment : Fragment() {
         val password = binding.loginPasswordEditText.text.toString()
 
         if(email.isBlank()){
-            //toast("Email and Password can't be blank")
             binding.loginEmailEditText.error = "Email field cannot be empty!"
             return
         }
@@ -133,10 +132,6 @@ class LoginFragment : Fragment() {
     private fun saveProfilePicture(bitmap: Bitmap) {
         val filename = "profile.png"
         val file = File(this.context?.filesDir, filename)
-        /*val image = view as ImageView
-
-        val bd = image.drawable as BitmapDrawable
-        val bitmap = bd.bitmap*/
         val outputStream: OutputStream
 
         try {

@@ -1,4 +1,4 @@
-package my.edu.tarc.travelink.ui.login.data
+package my.edu.tarc.travelink.ui.account.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,7 @@ import com.google.firebase.ktx.Firebase
 import my.edu.tarc.travelink.ui.wallet.data.Trip
 import java.util.*
 
-//var CURRENT_USER = User()
+//Global user
 val CURRENT_USER = MutableLiveData<User>()
 
 data class User (

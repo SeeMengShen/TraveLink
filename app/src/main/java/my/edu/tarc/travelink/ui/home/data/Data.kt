@@ -2,6 +2,7 @@ package my.edu.tarc.travelink.ui.home.data
 
 import android.graphics.Bitmap
 
+// News class for retrieving database value (without Photo field)
 data class DBNews(
     var newsTitle: String = "",
     var newsDate: String = "",
@@ -16,6 +17,7 @@ data class News(
     var newsPhoto: Bitmap? = null
 )
 
+// Schedule class for retrieving database value (without Photo field)
 data class DBSchedule(
     var scheduleID: Int = 0,
     var scheduleTitle: String = ""

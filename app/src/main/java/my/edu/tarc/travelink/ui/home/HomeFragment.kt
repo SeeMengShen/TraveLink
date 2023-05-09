@@ -32,7 +32,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View
     {
-        val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         val fragments = listOf(
@@ -52,8 +51,6 @@ class HomeFragment : Fragment() {
                 else -> ""
             }
         }.attach()
-
-//        requireActivity().findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.VISIBLE
 
         return binding.root
     }

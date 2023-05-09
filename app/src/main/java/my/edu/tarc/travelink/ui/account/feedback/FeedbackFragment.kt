@@ -45,6 +45,7 @@ class FeedbackFragment : Fragment() {
                     else -> "Others"
                 }
 
+                // Make it as a hashmap object for submitting
                 val feedback = hashMapOf(
                     "Category" to category,
                     "Subject" to feedbackSubjectEditText.text.toString(),
@@ -52,6 +53,7 @@ class FeedbackFragment : Fragment() {
                     "Message" to feedbackMessage.text.toString()
                 )
 
+                // Provide feedback for users when submitted and navigate up
                 Firebase.firestore.collection("feedbacks").document().set(feedback).addOnSuccessListener {
                     toast("Submitted! Thanks for your feedback!")
                     findNavController().navigateUp()
@@ -61,6 +63,7 @@ class FeedbackFragment : Fragment() {
 
     }
 
+    // Check whether it is empty
     private fun validate(): Boolean {
         if (binding.feedbackSubjectEditText.text.trim().isEmpty()) {
             toast("Subject should not be empty!")

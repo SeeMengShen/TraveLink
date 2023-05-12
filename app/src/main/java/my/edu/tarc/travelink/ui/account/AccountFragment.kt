@@ -85,7 +85,7 @@ class AccountFragment : Fragment() {
 
     private fun resetPwd() {
         auth.sendPasswordResetEmail(CURRENT_USER.value!!.email)
-        toast("A password reset request has been send to your email. Please rest your password and login again.")
+        toast("A password reset request has been send to your email. Please reset your password and login again.")
 
         logout()
     }
@@ -111,7 +111,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun readProfilePicture(): Bitmap? {
-        val filename = "profile.jpeg"
+        val filename = "profile.png"
         val file = File(this.context?.filesDir, filename)
 
         if (file.isFile) {

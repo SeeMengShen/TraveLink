@@ -77,7 +77,6 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     fun updateSeen(newsID: Int){
         CURRENT_USER.value!!.seenPost.add(newsID)
         firebaseUser.collection("seenNews").document(newsID.toString()).set({})
-        readSeen()
         addNewsCountIntoRTDB(newsID)
     }
 

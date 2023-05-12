@@ -27,6 +27,7 @@ import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.ktx.storage
 import my.edu.tarc.travelink.MainActivity
 import my.edu.tarc.travelink.ui.account.data.CURRENT_USER
+import my.edu.tarc.travelink.ui.account.data.User
 import my.edu.tarc.travelink.ui.account.data.UserViewModel
 import java.io.File
 import java.io.FileNotFoundException
@@ -38,6 +39,7 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
     private val navController by lazy { findNavController() }
+    private val userViewModel :UserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,6 +60,7 @@ class LoginFragment : Fragment() {
                 Firebase.firestore.collection("users").document(auth.currentUser!!.email.toString())
             firebaseUser.get().addOnSuccessListener { snap ->
                 CURRENT_USER.value = snap?.toObject()!!
+                userViewModel.readSeen()
 
                 val intent = Intent(context, MainActivity::class.java)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -89,7 +92,7 @@ class LoginFragment : Fragment() {
                     Firebase.firestore.collection("users").document(email).get()
                         .addOnSuccessListener { snap ->
                             CURRENT_USER.value = snap?.toObject()!!
-
+                            userViewModel.readSeen()
                             downloadProfilePicture()
 
                             val intent = Intent(context, MainActivity::class.java)

@@ -65,7 +65,7 @@ class ScanSuccessfulFragment : Fragment() {
                 scanSuccessfulStationNameTextView.text = tripViewModel.currentTrip!!.dropOffStation
                 scanSuccessfulTimeTextView.text =
                     tripViewModel.currentTrip!!.dropOffDateTimeToString()
-                scanSuccessfulFareTextView.text = tripViewModel.currentTrip!!.fare.toString()
+                scanSuccessfulFareTextView.text = String.format("RM %.2f", tripViewModel.currentTrip!!.fare)
 
                 //update into db
                 tripViewModel.updateTrip(tripViewModel.currentTrip!!)

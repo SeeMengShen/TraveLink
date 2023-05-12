@@ -122,7 +122,7 @@ class EditDetailsFragment : Fragment() {
     }
 
     private fun readProfilePicture(): Bitmap? {
-        val filename = "profile.jpeg"
+        val filename = "profile.png"
         val file = File(this.context?.filesDir, filename)
 
         if (file.isFile) {

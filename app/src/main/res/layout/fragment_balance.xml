@@ -65,6 +65,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/balanceLow"
                 android:textColor="@android:color/holo_red_dark"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="@+id/balanceTotalAmountLabel2"
                 app:layout_constraintStart_toStartOf="@+id/balanceTotalAmountLabel2"
                 app:layout_constraintTop_toBottomOf="@+id/balanceTotalAmountLabel2" />

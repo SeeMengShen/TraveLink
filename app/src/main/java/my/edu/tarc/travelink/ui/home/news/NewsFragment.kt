@@ -3,6 +3,7 @@ package my.edu.tarc.travelink.ui.home.news
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -51,18 +52,17 @@ class NewsFragment : Fragment() {
             )
         )
 
-        lifecycleScope.launch {
-            nvm.downloadNews()
-        }
-
         // Set observer to newsList for updating the photo and resubmit it to recycleView adapter
-        nvm.newsList.observe(viewLifecycleOwner) {
-            nvm.newsList.value!!.forEachIndexed { index, news ->
-                downloadNewsPicture(index)
+        nvm.newsList.observe(viewLifecycleOwner) { newsList ->
+
+            newsList.forEachIndexed { index, news ->
                 news.newsPhoto = readNewsPicture(index)
+                if (news.newsPhoto == null) {
+                    downloadNewsPicture(index, adapter)
+                }
             }
 
-            adapter.submitList(nvm.newsList.value)
+            adapter.submitList(newsList)
 
             // Reset the swipeRefresh
             binding.newsSwipeRefresh.isRefreshing = false
@@ -76,18 +76,20 @@ class NewsFragment : Fragment() {
         return binding.root
     }
 
-    private fun downloadNewsPicture(index: Int) {
+    private fun downloadNewsPicture(index: Int, adapter: NewsAdapter) {
         val imageRef =
             Firebase.storage.getReferenceFromUrl("gs://travelink-dc333.appspot.com/newsPhoto/$index.png")
 
         imageRef.getBytes(1024 * 1024).addOnSuccessListener { byteArray ->
             val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.count())
             saveNewsPicture(bitmap, index)
+            nvm.newsList.value!![index].newsPhoto = readNewsPicture(index)
+            adapter.notifyItemChanged(index)
         }
     }
 
     private fun saveNewsPicture(bitmap: Bitmap, newsID: Int) {
-        val filename = "$newsID.png"
+        val filename = "$newsID.jpeg"
         val file = File(this.context?.filesDir, filename)
         /*val image = view as ImageView
 
@@ -97,7 +99,7 @@ class NewsFragment : Fragment() {
 
         try {
             outputStream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.PNG, 50, outputStream)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 1, outputStream)
             outputStream.flush()
             outputStream.close()
         } catch (e: FileNotFoundException) {
@@ -106,7 +108,7 @@ class NewsFragment : Fragment() {
     }
 
     private fun readNewsPicture(index: Int): Bitmap? {
-        val filename = "$index.png"
+        val filename = "$index.jpeg"
         val file = File(this.context?.filesDir, filename)
 
         if (file.isFile) {

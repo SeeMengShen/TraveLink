@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.service.autofill.UserData
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,10 +18,12 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
 import my.edu.tarc.travelink.databinding.ActivityMainBinding
 import my.edu.tarc.travelink.ui.account.data.CURRENT_USER
 import my.edu.tarc.travelink.ui.account.data.User
 import my.edu.tarc.travelink.ui.account.data.UserViewModel
+import my.edu.tarc.travelink.ui.home.news.NewsAdapter
 import my.edu.tarc.travelink.ui.home.news.NewsViewModel
 import my.edu.tarc.travelink.ui.home.schedule.ScheduleViewModel
 import my.edu.tarc.travelink.ui.util.TripAdapter
@@ -32,18 +36,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var tripViewModel: TripViewModel
-    private lateinit var scheduleViewModel: ScheduleViewModel
+    private val newsViewModel: NewsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        //-------------------schedule--------------------------
-        scheduleViewModel = ViewModelProvider(
-            this,
-        ).get(ScheduleViewModel::class.java)
 
         //-------------------trip------------------------------
         tripViewModel = ViewModelProvider(

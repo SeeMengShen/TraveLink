@@ -130,13 +130,13 @@ class LoginFragment : Fragment() {
     }
 
     private fun saveProfilePicture(bitmap: Bitmap) {
-        val filename = "profile.png"
+        val filename = "profile.jpeg"
         val file = File(this.context?.filesDir, filename)
         val outputStream: OutputStream
 
         try {
             outputStream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.PNG, 50, outputStream)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, outputStream)
             outputStream.flush()
             outputStream.close()
         } catch (e: FileNotFoundException) {

@@ -61,10 +61,13 @@ class ScheduleFragment : Fragment() {
         svm.filteredItems?.observe(viewLifecycleOwner) { items ->
             if(items != null){
 
-                items.forEachIndexed { index, schedule ->
-                    downloadSchedulePicture(index)
+                svm.filteredItems?.value!!.forEachIndexed { index, schedule ->
                     schedule.route = readSchedulePicture(index, "r")
                     schedule.timetable = readSchedulePicture(index, "t")
+
+                    if(schedule.route == null || schedule.timetable == null){
+                        downloadSchedulePicture(index)
+                    }
                 }
 
                 adapter.setItems(items)
@@ -89,11 +92,15 @@ class ScheduleFragment : Fragment() {
         routeImageRef.getBytes(1024 * 1024).addOnSuccessListener { byteArray ->
             val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.count())
             saveSchedulePicture(bitmap, index, "r")
+            svm.filteredItems?.value!![index].route = readSchedulePicture(index, "r")
+            adapter.notifyItemChanged(index)
         }
 
         timetableImageRef.getBytes(1024 * 1024).addOnSuccessListener { byteArray ->
             val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.count())
             saveSchedulePicture(bitmap, index, "t")
+            svm.filteredItems?.value!![index].timetable = readSchedulePicture(index, "t")
+            adapter.notifyItemChanged(index)
         }
     }
 

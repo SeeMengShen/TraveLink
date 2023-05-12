@@ -22,7 +22,9 @@ class NewsViewModel: ViewModel() {
     }
 
     init {
-        downloadNews()
+        viewModelScope.launch {
+            downloadNews()
+        }
     }
 
     fun get(newsTitle: String): News? {
@@ -31,8 +33,8 @@ class NewsViewModel: ViewModel() {
 
     fun getAll() = newsList.value
 
-    @WorkerThread
-    fun downloadNews() = viewModelScope.launch{
+    //@WorkerThread
+    fun downloadNews(){
         database.child("news").get()
             .addOnSuccessListener {
 
@@ -50,7 +52,7 @@ class NewsViewModel: ViewModel() {
     private fun dbNewstoNews(dbNewsList : List<DBNews>): MutableList<News>{
         val newNewsList: MutableList<News> = mutableListOf()
         dbNewsList.forEachIndexed { index, dbNews ->
-            newNewsList.add(index, News(index, dbNews.newsTitle, dbNews.newsDate, dbNews.newsDesc, ))
+            newNewsList.add(News(index, dbNews.newsTitle, dbNews.newsDate, dbNews.newsDesc, ))
         }
 
         return newNewsList

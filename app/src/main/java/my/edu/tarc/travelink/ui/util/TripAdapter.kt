@@ -43,8 +43,6 @@ class TripAdapter : RecyclerView.Adapter<TripAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: TripAdapter.ViewHolder, position: Int) {
 
-
-
         holder.boardingStationTextView.text = tripList[position].boardingStation
         holder.boardingTimeTextView.text =tripList[position].boardingDateTimeToString()
 

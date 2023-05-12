@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import my.edu.tarc.travelink.R
 import my.edu.tarc.travelink.ui.home.data.News
+import my.edu.tarc.travelink.ui.wallet.data.Trip
 import org.w3c.dom.Text
 import java.io.File
 import java.io.FileNotFoundException
@@ -36,6 +37,7 @@ class NewsAdapter(val fn:(ViewHolder, News) -> Unit): ListAdapter<News, NewsAdap
         val newsDescView: TextView = view.findViewById(R.id.newsItemDescView)
         val newsImageView: ImageView = view.findViewById(R.id.newsItemImageView)
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_news_item, parent, false)
         return ViewHolder(view)

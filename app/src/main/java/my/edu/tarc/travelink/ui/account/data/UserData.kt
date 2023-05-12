@@ -20,5 +20,6 @@ data class User (
     var malaysian: Boolean = false,
     var idNum: String = "",
     var balance : Float = 0f,
-    var trips : List<Trip>? = emptyList()
+    var trips : List<Trip>? = emptyList(),
+    var seenPost: MutableList<Int> = mutableListOf()
 )
